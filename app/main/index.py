@@ -5,7 +5,7 @@ from flask import current_app as app
 
 main = Blueprint('main',__name__, url_prefix='/')
 
-@main.route('/main',methods=['GET'])
+@main.route('/',methods=['GET']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     testData = 'testData array'
 
