@@ -11,7 +11,6 @@ def index():
 
     return render_template('/main/index.html', testDataHtml = testData)
 
-app.run(debug=True)
 
 
     
