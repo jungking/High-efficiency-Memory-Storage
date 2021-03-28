@@ -8,9 +8,10 @@ main = Blueprint('main',__name__, url_prefix='/')
 @main.route('/',methods=['GET']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     testData = 'testData array'
-    app.run(debug=True)
+
     return render_template('/main/index.html', testDataHtml = testData)
 
+app.run(debug=True)
 
 
     
