@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Flask #2
+    </title>
+</head>
+<body>
+    <form method="POST" action="/calculate">
+        <h1> Flask #2_데이터 입력받기 </h1>
+        <h3> 사용자가 원하는 구구단을 출력하자!</br></h3>
+        <h5> 출력하고자 하는 구구단을 입력하세요.</h5>
+        <input type="text" name="num">
+        <button type="submit">구구단 확인하기</button>
+    </form>
+    <div>
+        <p>
+            {% if num == None %}
+                <h5> 아직 아무 숫자도 입력이 안되었습니다. </h5>
+            {% else %}
+                {% for i in range(1,10) %}
+                    <p>{{num}} x {{i}} = {{num*i}}</br></p>
+                {% endfor %}
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html>

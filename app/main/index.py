@@ -13,7 +13,7 @@ def index():
 
 @main.route('/date',methods=['GET'])
 def datecal(date=None):
-    return render_template('/main/date.html'date=date)
+    return render_template('/main/date.html', date=date)
 
     
 
