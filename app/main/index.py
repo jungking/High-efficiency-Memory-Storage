@@ -14,10 +14,9 @@ def index():
 def datecal(num=None):
     return render_template('/main/date.html', num=num)
 
-@main.route('/calculate',methods=['POST'])
+@main.route('/date/calculate',methods=['POST'])
 def calculate(num=None):
     if request.method == 'POST':
         temp = request.form['num']
-    else:
         return redirect(url_for('.datecal',num=temp))   # .써라
 
