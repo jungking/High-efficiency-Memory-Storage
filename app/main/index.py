@@ -10,13 +10,23 @@ def index():
     testData = 'testData array'
     return render_template('/main/index.html', testDataHtml = testData)
 
+@main.route('/profile')
+def profile():
+    return 'HJ, YW`s Profile'
+
 @main.route('/date<int:num>')
 def datecal(num=None):
     return render_template('/main/date.html', num=num)
+
+@main.route('/date')
+def datecal1(num=None):
+    return render_template('/main/date.html', num=num)    
 
 @main.route('/date/calculate',methods=['POST'])
 def calculate(num=None):
     if request.method == 'POST':
         temp = request.form['num']
-        return redirect(url_for('.datecal',num=temp))   # .써라
+    else:
+        num=None
+    return redirect(url_for('.datecal',num=temp))   # .써라
 
