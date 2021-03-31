@@ -8,12 +8,16 @@ main = Blueprint('main',__name__, url_prefix='/')
 @main.route('/',methods=['GET']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     testData = 'testData array'
-
     return render_template('/main/index.html', testDataHtml = testData)
 
-@main.route('/date',methods=['GET'])
-def datecal(date=None):
-    return render_template('/main/date.html', date=date)
+@main.route('/date<int:num>')
+def datecal(num=None):
+    return render_template('/main/date.html', num=num)
 
-    
+@main.route('/calculate',methods=['POST'])
+def calculate(num=None):
+    if request.method == 'POST':
+        temp = request.form['num']
+    else:
+        return redirect(url_for('.datecal',num=temp))   # .써라
 
