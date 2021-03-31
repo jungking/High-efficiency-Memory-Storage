@@ -11,7 +11,9 @@ def index():
 
     return render_template('/main/index.html', testDataHtml = testData)
 
-
+@main.route('/date',methods=['GET'])
+def datecal(date=None):
+    return render_template('/main/date.html'date=date)
 
     
 
