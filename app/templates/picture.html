@@ -51,7 +51,7 @@
             <a class="nav-link" href="/profile">Profile <span class="sr-only">(Profile)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/date">upload<span class="sr-only">(upload)</span></a>
+            <a class="nav-link" href="/upload">upload<span class="sr-only">(upload)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/picture">picture<span class="sr-only">(picture)</span></a>
@@ -70,16 +70,21 @@
       </div>
     </nav>
   </header>
-
-    <form method="POST" action="/date/calculate" style="text-align:center;">
-    
+    <form style="text-align:center;">        
         <br/><br/><h1> Picture </h1>
         <br/><br/><h3> 달력</br></h3>
-        <br/><br/><h5> 사진 업로드</h5>
-        <input type="text" name="num">
-        <button type="submit">사진 업로드</button>
+        <br/><br/><h5> 사진 출력</h5>
+        <!-- <input type="text" name="num"> -->
     </form>
-    <div style="text-align:center;">
+    
+    <form method="POST" action="/picture/prev" style="text-align:center;">        
+        <button type="prev">이전 사진</button>
+    </form>
+        <form method="POST" action="/picture/next" style="text-align:center;">        
+    <button type="next">다음 사진</button>
+    </form>
+
+    <div style="text-align:center;"></div>
         <p><br/>
         </p>
     </div>
