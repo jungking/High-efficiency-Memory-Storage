@@ -22,6 +22,10 @@ def datecal(num=None):
 def datecal1(num=None):
     return render_template('/date.html', num=num)    
 
+@main.route('/picture')
+def picture():
+    return render_template('/picture.html')
+
 @main.route('/date/calculate',methods=['POST'])
 def calculate(num=None):
     if request.method == 'POST':

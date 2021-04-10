@@ -73,21 +73,14 @@
 
     <form method="POST" action="/date/calculate" style="text-align:center;">
     
-        <br/><br/><h1> Flask #1_데이터 입력받기 </h1>
-        <br/><br/><h3> 사용자가 원하는 구구단을 출력하자!</br></h3>
-        <br/><br/><h5> 출력하고자 하는 구구단을 입력하세요.</h5>
+        <br/><br/><h1> Picture </h1>
+        <br/><br/><h3> 달력</br></h3>
+        <br/><br/><h5> 사진 업로드</h5>
         <input type="text" name="num">
-        <button type="submit">구구단 확인하기</button>
+        <button type="submit">사진 업로드</button>
     </form>
     <div style="text-align:center;">
         <p><br/>
-            {% if num == None %}
-                <h5> 아직 아무 숫자도 입력이 안되었습니다. </h5>
-            {% else %}
-                {% for i in range(1,10) %}
-                    <p>{{num}} x {{i}} = {{num*i}}</br></p>
-                {% endfor %}
-            {% endif %}
         </p>
     </div>
 
