@@ -20,14 +20,14 @@ def index():
             return render_temmplate('main/index.html', data = getfollowwedby(userid))
         return render_template('main/index.html', testDataHtml = testData)
 
-@app.route('/signin', methods=['GET','POST'])
-def signin():
-    form = LoginForm()
-    if form.validate_on_submit():
-        print('{} is Sign In'.format(form.data.get('userid')))
-        session['userid']=form.data.get('userid')
-        return redirect('main/index.html')
-    return render_template('sign/signin.html', form = form)
+ @app.route('/signin', methods=['GET','POST'])  
+ def signin():
+     form = LoginForm() #로그인폼
+     if form.validate_on_submit(): #인증
+         print('{}가 로그인 했습니다'.format(form.data.get('userid')))
+         session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
+         return redirect('/') #성공하면 main.html로
+     return render_template('sign/signin.html')
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
@@ -81,8 +81,8 @@ def calculate(num=None):
     return redirect(url_for('.datecal',num=temp))   # .써라
 
 if __name__ == "__main__":
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    dbfile = os.path.join(basedir, 'db.sqlite')
+    #basedir = os.path.abspath(os.path.dirname(__file__))
+    #dbfile = os.path.join(basedir, 'db.sqlite')
 
     app.config['SQLALCHEMY_DATABASE_RUI'] = 'sqlite:///' + dbfile
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True

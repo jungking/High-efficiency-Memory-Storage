@@ -48,7 +48,7 @@
       <div class="jumbotron">
         <h1>Sign In</h1>
         <form class="form-signin" action="." method="post">
- 
+         {{form.csrf_token}}
         <label for="inputEmail" class="sr-only">ID</label>
         <input type="userid" name="inputid" id="inputid" class="form-control" placeholder="ID" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
