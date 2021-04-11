@@ -1,7 +1,7 @@
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
-from model.my_user_model import User
+from model.my_user_model import 
 from form import RegisterForm, LoginForm
 
 router = Blueprint('router',__name__)
