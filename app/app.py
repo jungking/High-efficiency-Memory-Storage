@@ -80,11 +80,11 @@ def calculate(num=None):
     return redirect(url_for('.datecal',num=temp))   # .써라
 
 if __name__ == "__main__":
-    basedir = os.path.dirname(__file__)
+    basedir = os.path.dirname(os.path.abspath(__file__))
     dbfile = os.path.join(basedir, 'db.sqlite')
 
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
+    app.config['SQLALCHEMY_DATABASE_RUI'] = 'sqlite:///' + dbfile
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
     app.config['SECRET_KEY'] = 'qwerasdfzxcv'
@@ -92,7 +92,8 @@ if __name__ == "__main__":
     csrf = CSRFProtect()
     csrf.init_app(app)
 
-    db=SQLAlchemy()
+    db=SQLAlchemy(app)
+
     db.init_app(app)
     db.app = app
     db.create_all()
