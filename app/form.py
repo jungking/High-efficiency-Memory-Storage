@@ -1,12 +1,14 @@
 from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms import PasswordField
 from wtforms.validators import DataRequired
-from model.my_user_model import User
+from model.my_user_model import User #Models.py 가져옴
 
 class RegisterForm(FlaskForm):
     userid = StringField('userid', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired()]) #비밀번호 확인
+
 
 class LoginForm(FlaskForm):
     class UserPassword(object):

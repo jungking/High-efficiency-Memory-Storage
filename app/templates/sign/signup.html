@@ -47,32 +47,19 @@
  
       <div class="jumbotron">
         <h1>Sign Up</h1>
-
- <!--        <form class="form-signin" action="." method="POST">
-            {{form.csrf_token}}
-        <label for=" userid" class="sr-only">ID</label>
-        <input type="userid" name="userid" id="id" class="form-control" placeholder="ID" required autofocus>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+          {{form.csrf_token}}
+          <form class="form-signin" action="." method="POST">
+           
+            <label for="userid" class="sr-only">ID</label>
+            <input type="userid" name="userid" id="id" class="form-control" placeholder="ID" required autofocus>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
          
-        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
-      </form> -->
-      <form method="POST">
-        {{form.csrf_token}}
-        <div class="form-group">
-            {{form.userid.label("아이디")}}
-            {{form.userid(class="form-control", placeholder="아이디")}}
-        </div>
-        <div class="form-group">
-            {{form.password.label("비밀번호")}}
-            {%if form.password.errors%} <!--로그인이 실패하면-->
-            {{form.password.errors.0}} <!--첫번째 에러메시지 출력한다-->
-            {%endif%} <!--실패하지 않았으면 비밀번호 넘긴다-->
-            {{form.password(class="form-control", placeholder="비밀번호")}}
-        </div>
-        <button type="submit" class="btn btn-primary">제출</button>
-    </form>
+            <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+          </form>
+     
       </div>
+    </div>
  
       <footer class="footer">
         <p>&copy; Company 2015</p>
