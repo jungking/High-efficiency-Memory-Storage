@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title> HyunJoon ♡ YeWon </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/carousel/">
+
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+  </head>
+  <link href="../../static/css/carousel.css" rel="stylesheet">
+  <body>
+   
+    <div class="container">
+      <div class="header">
+        <br/><br/><br/>
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="/">Home</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+            <li role="presentation" ><a href="/singin">Sign In</a></li>
+
+          </ul>
+        </nav><br/>
+        <h3 class="text-muted">HyunJoon ♡ YeWon</h3>
+      </div>
+ 
+      <div class="jumbotron">
+        <h1>Sign Up</h1>
+        <form class="form-signin" action="." method="POST">
+            {{form.csrf_token}}
+        <label for=" userid" class="sr-only">ID</label>
+        <input type="userid" name="userid" id="id" class="form-control" placeholder="ID" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+         
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+      </form>
+      </div>
+ 
+      <footer class="footer">
+        <p>&copy; Company 2015</p>
+      </footer>
+ 
+    </div>
+
+  </body>
+</html>

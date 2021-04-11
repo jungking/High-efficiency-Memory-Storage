@@ -1,49 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Python Flask Bucket List App</title>
- 
-    
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    <link href="../static/css/signup.css" rel="stylesheet">
-    <script src="../static/js/jquery-1.11.2.js"></script>
-    
+    <title> HyunJoon ♡ YeWon </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/carousel/">
+
+    <link href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
   </head>
- 
+  <link href="../../static/css/carousel.css" rel="stylesheet">
   <body>
- 
+   
     <div class="container">
       <div class="header">
+        <br/><br/><br/>
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" ><a href="/">Home</a></li>
-            <li role="presentation" class="active"><a href="#">Sign In</a></li>
-            <li role="presentation" ><a href="/showSignUp">Sign Up</a></li>
+            <li role="presentation" ><a href="/">Home</a></li>&nbsp;&nbsp;&nbsp;&nbsp;
+            
+            <li role="presentation" ><a href="/signup">Sign Up</a></li>
           </ul>
-        </nav>
-        <h3 class="text-muted">Python Flask App</h3>
+        </nav><br/>
+        <h3 class="text-muted">HyunJoon ♡ YeWon</h3>
       </div>
- 
+ <!-- 
       <div class="jumbotron">
-        <h1>HJYW WEB SITE</h1>
-        <form class="form-signin" action="/validateLogin" method="post">
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <h1>Sign In</h1>
+        <form class="form-signin" action="." method="post">
+ 
+        <label for="inputEmail" class="sr-only">ID</label>
+        <input type="id" name="inputEmail" id="inputEmail" class="form-control" placeholder="ID" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
          
-        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
       </form>
-      </div>
- 
-       
- 
+      </div> -->
+      <div class="col-12">
+        <br/><br/>
+        <form method="POST">
+            {{form.csrf_token}}
+            <div class="form-group">
+                {{form.userid.label("아이디")}}
+                {{form.userid(class="form-control", placeholder="아이디")}}
+            </div>
+            <div class="form-group">
+                {{form.password.label("비밀번호")}}
+                {%if form.password.errors%} <!--로그인이 실패하면-->
+                {{form.password.errors.0}} <!--첫번째 에러메시지 출력한다-->
+                {%endif%} <!--실패하지 않았으면 비밀번호 넘긴다-->
+                {{form.password(class="form-control", placeholder="비밀번호")}}
+            </div>
+            <button type="submit" class="btn btn-primary">제출</button>
+        </form>
+    </div>
       <footer class="footer">
         <p>&copy; Company 2015</p>
       </footer>
  
     </div>
+
   </body>
 </html>
