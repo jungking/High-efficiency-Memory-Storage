@@ -3,7 +3,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
-from model.my_user_model import db
+from model.my_user_model import *
 
 from route.user_route import router
 
@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 app.register_blueprint(router)
 
-if __name__ == "__main__":
+""" if __name__ == "__main__": """
     basedir = os.path.abspath(os.path.dirname(__file__))
     dbfile = os.path.join(basedir, 'db.sqlite')
 
