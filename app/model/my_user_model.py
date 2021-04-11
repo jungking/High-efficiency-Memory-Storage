@@ -12,7 +12,7 @@ class User(db.Model):
     userid = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     
-    def __init__(self, username, password):
+    def __init__(self, userid, password):
         self.userid = userid
         self.password = password
     

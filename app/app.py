@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     app.config['SQLALCHEMY_DATABASE_RUI'] = 'sqlite:///' + dbfile
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
     app.config['SECRET_KEY'] = 'qwerasdfzxcv'
 
     csrf = CSRFProtect()

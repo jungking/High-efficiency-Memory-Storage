@@ -23,7 +23,7 @@ def signin():
     if form.validate_on_submit():
         print('{} is Sign In'.format(form.data.get('userid')))
         session['userid']=form.data.get('userid')
-        return redirect('/')
+        return redirect('main/index.html')
     return render_template('sign/signin.html', form = form)
 
 @router.route('/signup', methods=['GET','POST'])
@@ -36,7 +36,7 @@ def signup():
 
         db.session.add(usertable)
         db.session.commit()
-        return print("Sign Up Complete!")
+        return "Sign Up Complete!"
     return render_template('sign/signup.html', form = form)
 
 @router.route('/logout')
@@ -75,3 +75,5 @@ def calculate(num=None):
     else:
         num=None
     return redirect(url_for('.datecal',num=temp))   # .써라
+
+
