@@ -1,7 +1,7 @@
 import os, sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
-from model.my_user_model import *
+from model.my_user_model import User
 from form import RegisterForm, LoginForm
 
 router = Blueprint('router',__name__)
@@ -36,7 +36,7 @@ def signup():
 
         db.session.add(usertable)
         db.session.commit()
-        return "Sign Up Complete!"
+        return redirect('main/index.html')
     return render_template('sign/signup.html', form = form)
 
 @router.route('/logout')
