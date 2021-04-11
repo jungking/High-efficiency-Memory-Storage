@@ -1,9 +1,8 @@
 from flask_wtf import FlaskForm
-from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms import PasswordField
 from wtforms.validators import DataRequired
-from model.my_user_model import User #Models.py 가져옴
+from model.my_user_model import *
 
 class RegisterForm(FlaskForm):
     userid = StringField('userid', validators=[DataRequired()])

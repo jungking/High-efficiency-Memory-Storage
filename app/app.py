@@ -1,8 +1,7 @@
-import os
+import os.path
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
-from model.my_user_model import *
 from model.my_user_model import User
 from form import RegisterForm, LoginForm
 
@@ -81,17 +80,19 @@ def calculate(num=None):
     return redirect(url_for('.datecal',num=temp))   # .써라
 
 if __name__ == "__main__":
-    #basedir = os.path.abspath(os.path.dirname(__file__))
-    #dbfile = os.path.join(basedir, 'db.sqlite')
+    basedir = os.path.dirname(__file__)
+    dbfile = os.path.join(basedir, 'db.sqlite')
 
-    #app.config['SQLALCHEMY_DATABASE_RUI'] = 'sqlite:///' + dbfile
-    #app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-    #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
+    app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
     app.config['SECRET_KEY'] = 'qwerasdfzxcv'
 
     csrf = CSRFProtect()
     csrf.init_app(app)
 
+    db=SQLAlchemy()
     db.init_app(app)
     db.app = app
     db.create_all()
