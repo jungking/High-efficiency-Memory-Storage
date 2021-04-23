@@ -94,6 +94,7 @@ if __name__ == "__main__":
 
     db=SQLAlchemy(app)
 
+
     db.init_app(app)
     db.app = app
     db.create_all()
