@@ -2,7 +2,7 @@ import os.path
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
-from ./model import my_user_model.User
+from app.model import my_user_model
 from . import form
 
 app = Flask(__name__)
