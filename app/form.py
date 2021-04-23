@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms import PasswordField
 from wtforms.validators import DataRequired
-from model.my_user_model import *
+from app.model import my_user_model
 
 class RegisterForm(FlaskForm):
     userid = StringField('userid', validators=[DataRequired()])
