@@ -6,6 +6,7 @@ from app.model import my_user_model
 from . import form
 
 app = Flask(__name__)
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP], app=app)
 """ db = SQLAlchemy() #SQLAlchemy를 사용해 데이터베이스 저장
 
 class User(db.Model): #데이터 모델을 나타내는 객체 선언
