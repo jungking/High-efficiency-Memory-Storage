@@ -2,11 +2,22 @@ import os.path
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
-from model.my_user_model import User
+#from model.my_user_model import User
 from form import RegisterForm, LoginForm
 
 app = Flask(__name__)
+db = SQLAlchemy() #SQLAlchemy를 사용해 데이터베이스 저장
 
+class User(db.Model): #데이터 모델을 나타내는 객체 선언
+    __tablename__ = 'user_table' #테이블 이름
+    
+    id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.String(32), unique=True, nullable=False)
+    password = db.Column(db.String(8), nullable=False)
+
+    def __init__(self,userid, password):
+        self.userid = userid
+        self.set_password(password) 
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
