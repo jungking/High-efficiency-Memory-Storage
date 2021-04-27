@@ -20,6 +20,7 @@ class User(db.Model): #데이터 모델을 나타내는 객체 선언
         self.userid = userid
         self.set_password(password) 
  """
+ 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     testData = 'testData array'
