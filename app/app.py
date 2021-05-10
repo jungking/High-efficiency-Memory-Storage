@@ -2,10 +2,11 @@ import os.path
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
-from app.model import my_user_model
-from . import form
+from app.model.my_user_model import *
+from .form import *
 
 app = Flask(__name__)
+app.config['SECRET_KEY']='any secret string'
 
 """ db = SQLAlchemy() #SQLAlchemy를 사용해 데이터베이스 저장
 
