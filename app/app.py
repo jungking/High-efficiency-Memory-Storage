@@ -2,7 +2,8 @@ import os.path
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
-from app.model.my_user_model import *
+from .model.my_user_model import User
+from .model.my_user_model import db
 from .form import *
 
 app = Flask(__name__)
@@ -45,16 +46,24 @@ def signin():
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     form = RegisterForm()
-    if form.validate_on_submit(): 
-        usertable = User() 
-        usertable.userid = form.data.get('userid')
-        usertable.password = form.data.get('password')
+    if request.method =='GET':
+        return render_template('sign/signup.html')
+    else:
+        userid = request.form.get('userid')
+        password = request.form.get('password')
 
-        db.session.add(usertable) #DB저장
-        db.session.commit() #변동사항 반영
+        if not(userid and password):
+            return "입력되지 않은 정보가 있음"
+        else:
+            usertable = User() 
+            usertable.userid = userid #form.data.get('userid')
+            usertable.password = password #form.data.get('password')
+
+            db.session.add(usertable) #DB저장
+            db.session.commit() #변동사항 반영
         
-        return "회원가입 성공" 
-    return render_template('sign/signup.html', form=form) #form이 어떤 form인지 명시한다
+            return "회원가입 성공" 
+        return render_template('sign/signup.html', form=form) #form이 어떤 form인지 명시한다
 
 @app.route('/logout')
 def logout():
@@ -106,7 +115,7 @@ if __name__ == "__main__":
     csrf = CSRFProtect()
     csrf.init_app(app)
 
-    db=SQLAlchemy(app)
+    #db=SQLAlchemy(app)
 
 
     db.init_app(app)
@@ -114,6 +123,6 @@ if __name__ == "__main__":
     db.create_all()
 
    
-    app.run(debug=True)
-    #app.run(debug=True,host="127.0.0.1",port=5000)
+    #app.run(debug=True)
+    app.run(debug=True,host="127.0.0.1",port=5000)
 
