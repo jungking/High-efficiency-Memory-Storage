@@ -17,5 +17,4 @@ class User(db.Model): #데이터 모델을 나타내는 객체 선언
         self.password = generate_password_hash(password)
 
 
-
-    
+   
