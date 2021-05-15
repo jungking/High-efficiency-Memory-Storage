@@ -1,10 +1,11 @@
 import os.path
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
-from flask import Blueprint, request, Flask, session, render_template, redirect, url_for
+from flask import request, Flask, session, render_template, redirect, url_for
 from .model.my_user_model import User
 from .model.my_user_model import db
 from .form import *
+import sys
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='any secret string'
@@ -53,7 +54,7 @@ def signup():
 
         db.session.add(usertable)
         db.session.commit()
-        
+        print('회원강비 성 공', file=sys.stderr)
         return "회원가입 성공" 
     return render_template('sign/signup.html', form = form)
 
@@ -107,7 +108,7 @@ if __name__ == "__main__":
     #csrf = CSRFProtect()
     #csrf.init_app(app)
 
-    #db=SQLAlchemy(app)
+    db=SQLAlchemy(app)
 
 
     db.init_app(app)
