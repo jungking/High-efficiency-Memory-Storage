@@ -31,7 +31,7 @@ def index():
     else:
         if request.method == 'POST':
             userid = getname(request.form['userid'])
-            return render_temmplate('main/index.html', data = getfollowwedby(userid))
+            return render_template('main/index.html', data = getfollowedby(userid))
         return render_template('main/index.html', testDataHtml = testData)
 
 @app.route('/signin', methods=['GET','POST'])
@@ -47,15 +47,15 @@ def signin():
 def signup():
     form = RegisterForm()
     if form.validate_on_submit():
-        usertable = User()
+        usertable = User('userid','password')
         usertable.userid = form.data.get('userid')
-        usertable.user.password = form.data.get('password')
+        usertable.password = form.data.get('password')
 
         db.session.add(usertable)
         db.session.commit()
         
         return "회원가입 성공" 
-    return redirect('/')
+    return render_template('sign/signup.html', form = form)
 
 @app.route('/logout')
 def logout():
@@ -99,13 +99,13 @@ if __name__ == "__main__":
     dbfile = os.path.join(basedir, 'db.sqlite')
 
 
-    app.config['SQLALCHEMY_DATABASE_RUI'] = 'sqlite:///' + dbfile
-    app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
-    app.config['SECRET_KEY'] = 'qwerasdfzxcv'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
+    app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #추가 메모리를 사용하므로 꺼둔다
+    #app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
 
-    csrf = CSRFProtect()
-    csrf.init_app(app)
+    #csrf = CSRFProtect()
+    #csrf.init_app(app)
 
     #db=SQLAlchemy(app)
 
