@@ -18,7 +18,7 @@ class LoginForm(FlaskForm):
             userid = form['userid'].data
             password = field.data
             
-            usertable = User.query.filter_by(userid=userid).first()
+            usertable = user.query.filter_by(userid=userid).first()
             if usertable.password != password:
             	raise ValueError('비밀번호 틀림')
                 
