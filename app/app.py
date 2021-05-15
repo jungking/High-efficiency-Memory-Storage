@@ -46,24 +46,16 @@ def signin():
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     form = RegisterForm()
-    if request.method =='GET':
-        return render_template('sign/signup.html')
-    else:
-        userid = request.form.get('userid')
-        password = request.form.get('password')
+    if form.validate_on_submit():
+        usertable = User()
+        usertable.userid = form.data.get('userid')
+        usertable.user.password = form.data.get('password')
 
-        if not(userid and password):
-            return "입력되지 않은 정보가 있음"
-        else:
-            usertable = User() 
-            usertable.userid = userid #form.data.get('userid')
-            usertable.password = password #form.data.get('password')
-
-            db.session.add(usertable) #DB저장
-            db.session.commit() #변동사항 반영
+        db.session.add(usertable)
+        db.session.commit()
         
-            return "회원가입 성공" 
-        return render_template('sign/signup.html', form=form) #form이 어떤 form인지 명시한다
+        return "회원가입 성공" 
+    return redirect('/')
 
 @app.route('/logout')
 def logout():
