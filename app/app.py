@@ -48,13 +48,15 @@ def signin():
 def signup():
     form = RegisterForm()
     if form.validate_on_submit():
-        usertable = User('userid','password')
-        usertable.userid = form.data.get('userid')
-        usertable.password = form.data.get('password')
+        usertable = User()
+        #usertable.userid = form.data.get('userid')
+        #usertable.password = form.data.get('password')
+        usertable.userid = request.form.get('userid')
+        usertable.password = request.form.get('password')
 
         db.session.add(usertable)
         db.session.commit()
-        print('회원강비 성 공', file=sys.stderr)
+
         return "회원가입 성공" 
     return render_template('sign/signup.html', form = form)
 
@@ -96,9 +98,9 @@ def calculate(num=None):
     return redirect(url_for('.datecal',num=temp))   # .써라
 
 if __name__ == "__main__":
-    basedir = os.path.dirname(os.path.abspath(__file__))
-    dbfile = os.path.join(basedir, 'db.sqlite')
-
+    #데이터베이스---------
+    basedir = os.path.abspath(os.path.dirname(__file__)) #현재 파일이 있는 디렉토리 절대 경로
+    dbfile = os.path.join(basedir, 'db.sqlite') #데이터베이스 파일을 만든다
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
@@ -108,12 +110,9 @@ if __name__ == "__main__":
     #csrf = CSRFProtect()
     #csrf.init_app(app)
 
-    db=SQLAlchemy(app)
-
-
-    db.init_app(app)
-    db.app = app
-    db.create_all()
+    db.init_app(app) #app설정값 초기화
+    db.app = app #Models.py에서 db를 가져와서 db.app에 app을 명시적으로 넣는다
+    db.create_all() #DB생성
 
    
     #app.run(debug=True)
