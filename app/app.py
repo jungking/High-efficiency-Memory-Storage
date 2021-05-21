@@ -26,10 +26,9 @@ def signin():
     form = LoginForm() #로그인폼
     if form.validate_on_submit(): #인증
         name = form.data.get('userid')
-        pwd = form.data.get('password')
-        data = User.query.filtere_by(username=name, password=pwd).first()
         print('{}가 로그인 했습니다'.format(name))
         session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
+        session['logflag'] = True
         return redirect('/') #성공하면 main.html로
     return render_template('sign/signin.html',form=form)
 
@@ -52,24 +51,16 @@ def signup():
             db.session.commit()
 
             return redirect('/')
-        """ usertable = User()
-        usertable.userid = form.data.get('userid')
-        usertable.password = form.data.get('password')
-        #usertable.userid = request.form.get('userid')
-        #usertable.password = request.form.get('password')
-        print(usertable.userid, usertable.password)
-        db.session.add(usertable)
-        db.session.commit()
-        print("회원가입 성공")"""
         return render_template('sign/signup.html')
 
-""" @app.route('/nav/<userid>')
+@app.route('/nav')
 def nav(userid):
-    return render_template('main/nav.html', userid = userid) """
+    return render_template('main/nav.html', userid = userid)
 
 @app.route('/logout')
 def logout():
     session.pop('userid',None)
+    session.pop('logflag',None)
     return redirect('/')
 
 @app.route('/profile') #프로필 창 들어가기
