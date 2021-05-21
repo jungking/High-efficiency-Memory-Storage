@@ -15,13 +15,13 @@ class LoginForm(FlaskForm):
             self.message = message
             
         def __call__(self, form, field):
-            userid = form['userid'].data
-            password = field.data
+            user = form['userid'].data
+            pwd = form['password'].data
             
-            usertable = User.query.filter_by(userid=userid).first()
+            usertable = User.query.filter_by(userid=user,password=pwd).first()
             
-            if usertable.password != password:
-            	raise ValueError('비밀번호 틀림')
+            if usertable is None:
+            	raise ValueError('아이디 또는 비밀번호가 틀림')
                 
     userid = StringField('userid', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired(), UserPassword()])
