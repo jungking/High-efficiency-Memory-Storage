@@ -64,7 +64,13 @@
 
         <div class="form-group">
             {{form.password.label("비밀번호")}}
+            {%if form.password.errors%}  
+            <!-- 로그인 실패시 errors/ password필드의 모든 에러를 갖고있다. -->
+            {{form.password.errors.0}}
+            <!--0 : 첫번째 에러메시지를 출력 하겠다 라는 뜻  -->
+            {%endif%}
             {{form.password(class="form-control", placeholder="비밀번호")}}
+
         </div>
 
         <button type="submit" class="btn btn-primary">제출</button>

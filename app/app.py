@@ -24,7 +24,9 @@ def index():
 @app.route('/signin', methods=['GET','POST'])
 def signin():
     form = LoginForm() #로그인폼
+    
     if form.validate_on_submit(): #인증
+        error = None
         print('{}가 로그인 했습니다'.format(form.data.get('userid')))
         session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
         return redirect('/') #성공하면 main.html로
@@ -111,8 +113,8 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전�
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #추가 메모리를 사용하므로 꺼둔다
 
 
-csrf = CSRFProtect()
-csrf.init_app(app)
+#csrf = CSRFProtect()
+#csrf.init_app(app)
 
 db.init_app(app) #app설정값 초기화
 db.app = app #Models.py에서 db를 가져와서 db.app에 app을 명시적으로 넣는다
