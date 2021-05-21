@@ -8,7 +8,7 @@ from .form import *
 import sys
 
 app = Flask(__name__)
-#app.config['SECRET_KEY']='any secret string'
+app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
@@ -33,8 +33,23 @@ def signin():
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     form = RegisterForm()
-    if form.validate_on_submit():
-        usertable = User()
+    if request.method == 'GET':
+        return render_template("sign/signup.html")
+    else:
+        userid = form.data.get('userid')
+        password = form.data.get('password')
+        if not(userid and password):
+            return "입력 필수"
+        if(userid and password):
+            usertable = User()
+            usertable.userid = userid
+            usertable.password = password
+
+            db.session.add(usertable)
+            db.session.commit()
+
+            return redirect('/')
+        """ usertable = User()
         usertable.userid = form.data.get('userid')
         usertable.password = form.data.get('password')
         #usertable.userid = request.form.get('userid')
@@ -42,9 +57,12 @@ def signup():
         print(usertable.userid, usertable.password)
         db.session.add(usertable)
         db.session.commit()
+        print("회원가입 성공")"""
+        return render_template('sign/signup.html')
 
-        return "회원가입 성공" 
-    return render_template('sign/signup.html', form = form)
+""" @app.route('/nav/<userid>')
+def nav(userid):
+    return render_template('main/nav.html', userid = userid) """
 
 @app.route('/logout')
 def logout():
@@ -91,7 +109,7 @@ dbfile = os.path.join(basedir, 'db.sqlite') #데이터베이스 파일을 만든
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #추가 메모리를 사용하므로 꺼둔다
-app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
+
 
 csrf = CSRFProtect()
 csrf.init_app(app)
