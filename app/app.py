@@ -24,10 +24,11 @@ def index():
 @app.route('/signin', methods=['GET','POST'])
 def signin():
     form = LoginForm() #로그인폼
-    
     if form.validate_on_submit(): #인증
-        error = None
-        print('{}가 로그인 했습니다'.format(form.data.get('userid')))
+        name = form.data.get('userid')
+        pwd = form.data.get('password')
+        data = User.query.filtere_by(username=name, password=pwd).first()
+        print('{}가 로그인 했습니다'.format(name))
         session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
         return redirect('/') #성공하면 main.html로
     return render_template('sign/signin.html',form=form)
