@@ -70,13 +70,13 @@ def logout():
 def profile():
     return render_template('/profile.html')
 
-@app.route('/upload<int:num>') #업로드 창 int값
+@app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
 def datecal(num=None):
-    return render_template('/upload.html', num=num)
-
-@app.route('/upload') #업로드 창 들어가기
-def datecal1(num=None):
-    return render_template('/upload.html', num=num)    
+    if request.method =='GET':
+        return render_template("upload.html")
+    else:
+        date = request.form['date']
+    return render_template('/upload.html',)    
 
 @app.route('/picture') #사진 창 들어가기
 def picture():
