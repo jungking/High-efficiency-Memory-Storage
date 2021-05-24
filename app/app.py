@@ -54,7 +54,7 @@ def signup():
             session['user'] = userid
 
             return redirect('/')
-        return render_template('sign/signup.html')
+        return render_template('sign/signup.html',form=form)
 
 @app.route('/nav')
 def nav(userid):

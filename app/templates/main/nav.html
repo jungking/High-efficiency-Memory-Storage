@@ -8,20 +8,23 @@
         <ul class="navbar-nav mr-auto">
           {% if 'userid' not in session %}
           <li class="nav-item">
-            <a class="nav-link" href="/signin">Sign In/Up<span class="sr-only">(Sign In/Up)</span></a>
+            <a class="nav-link" href="/signin">로그인<span class="sr-only">(Sign In/Up)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">회원가입<span class="sr-only">(Sign In/Up)</span></a>
           </li>
           {% elif 'userid' in session %}
           <li class="nav-item">
             <a class="nav-link" href="/profile">{{session['userid']}}<span class="sr-only">(Profile)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout <span class="sr-only">(Logout)</span></a>
+            <a class="nav-link" href="/logout">로그아웃<span class="sr-only">(Logout)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/upload">upload<span class="sr-only">(upload)</span></a>
+            <a class="nav-link" href="/upload">사진 업로드<span class="sr-only">(upload)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/picture">picture<span class="sr-only">(picture)</span></a>
+            <a class="nav-link" href="/picture">사진 보기<span class="sr-only">(picture)</span></a>
           </li>
           {% endif %}
           <li class="nav-item">
