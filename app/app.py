@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask import request, Flask, session, render_template, redirect, url_for
 from .model.my_user_model import User
+from .model.my_user_model import Picture
 from .model.my_user_model import db
 from .form import *
 import sys
@@ -71,11 +72,19 @@ def profile():
     return render_template('/profile.html')
 
 @app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
-def datecal(num=None):
+def datecal(date=None):
     if request.method =='GET':
         return render_template("upload.html")
     else:
         date = request.form['date']
+        print(date)
+        pictable = Picture()
+        usertable = User()
+        pictable.date = date
+        pictable.pic = 1
+        pictable.user_id = usertable.id
+        db.session.add(pictable)
+        db.session.commit()
     return render_template('/upload.html',)    
 
 @app.route('/picture') #사진 창 들어가기
