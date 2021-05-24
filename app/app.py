@@ -79,13 +79,11 @@ def datecal(date=None):
         date = request.form['date']
         print(date)
         pictable = Picture()
-        usertable = User()
         pictable.date = date
         pictable.pic = 1
-        pictable.user_id = usertable.id
         db.session.add(pictable)
         db.session.commit()
-    return render_template('/upload.html',)    
+    return render_template('/upload.html')    
 
 @app.route('/picture') #사진 창 들어가기
 def picture():
@@ -98,15 +96,6 @@ def prev():
 @app.route('/picture/next',methods=['POST']) #프로필탭 다음사진으로
 def next():
     return render_template('/picture.html')
-
-@app.route('/upload/calculate',methods=['POST']) # 업로드 계산기
-def calculate(num=None):
-    if request.method == 'POST':
-        temp = request.form['num']
-    else:
-        num=None
-    return redirect(url_for('.datecal',num=temp))   # .써라
-
 
 #데이터베이스---------
 basedir = os.path.abspath(os.path.dirname(__file__)) #현재 파일이 있는 디렉토리 절대 경로
