@@ -3,3 +3,4 @@ __pycache__
 .app.model.__pycache__
 .vscode
 db.sqlite-journal
+app.cpython-38.pyc
