@@ -13,13 +13,14 @@ app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     testData = 'testData array'
-    if not session.get('logged_in'):
+    """if not session.get('logflag'):
         return render_template('main/index.html', testDataHtml = testData)
     else:
         if request.method == 'POST':
             userid = getname(request.form['userid'])
-            return render_template('main/index.html', data = getfollowedby(userid))
-        return render_template('main/index.html', testDataHtml = testData)
+            return render_template('main/index.html', data = getfollowedby(userid))     """
+    
+    return render_template('main/index.html', testDataHtml = testData)
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
@@ -28,7 +29,7 @@ def signin():
         name = form.data.get('userid')
         print('{}가 로그인 했습니다'.format(name))
         session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
-        session['logflag'] = True
+        session['logflag'] = 1
         return redirect('/') #성공하면 main.html로
     return render_template('sign/signin.html',form=form)
 
@@ -46,9 +47,11 @@ def signup():
             usertable = User()
             usertable.userid = userid
             usertable.password = password
-
+            
             db.session.add(usertable)
             db.session.commit()
+
+            session['user'] = userid
 
             return redirect('/')
         return render_template('sign/signup.html')
