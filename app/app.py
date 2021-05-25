@@ -28,9 +28,11 @@ def signin():
     form = LoginForm() #로그인폼
     if form.validate_on_submit(): #인증
         name = form.data.get('userid')
+        
         print('{}가 로그인 했습니다'.format(name))
-        session['userid']=form.data.get('userid') #form에서 가져온 userid를 세션에 저장
+        session['userid']=name #form에서 가져온 userid를 세션에 저장
         session['logflag'] = 1
+ 
         return redirect('/') #성공하면 main.html로
     return render_template('sign/signin.html',form=form)
 
@@ -53,7 +55,7 @@ def signup():
             db.session.commit()
 
             session['user'] = userid
-
+            
             return redirect('/')
         return render_template('sign/signup.html',form=form)
 
@@ -77,10 +79,11 @@ def datecal(date=None):
         return render_template("upload.html")
     else:
         date = request.form['date']
-        print(date)
+        user = User()
         pictable = Picture()
         pictable.date = date
         pictable.pic = 1
+        pictable.user_id = session['id']
         db.session.add(pictable)
         db.session.commit()
     return render_template('/upload.html')    

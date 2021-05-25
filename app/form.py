@@ -3,6 +3,7 @@ from wtforms import StringField
 from wtforms import PasswordField
 from wtforms.validators import DataRequired
 from app.model.my_user_model import User
+from flask import session
 
 class RegisterForm(FlaskForm):
     userid = StringField('userid', validators=[DataRequired()])
@@ -17,9 +18,9 @@ class LoginForm(FlaskForm):
         def __call__(self, form, field):
             user = form['userid'].data
             pwd = form['password'].data
-            
+            session['id'] = User.query.filter_by(userid=user).first().id
+
             usertable = User.query.filter_by(userid=user,password=pwd).first()
-            
             if usertable is None:
             	raise ValueError('아이디 또는 비밀번호가 틀림')
                 
