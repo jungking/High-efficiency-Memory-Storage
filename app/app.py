@@ -6,6 +6,8 @@ from .model.my_user_model import User
 from .model.my_user_model import Picture
 from .model.my_user_model import db
 from .form import *
+import base64
+from io import BytesIO
 import sys
 
 app = Flask(__name__)
@@ -79,17 +81,26 @@ def datecal(date=None):
         return render_template("upload.html")
     else:
         date = request.form['date']
-        user = User()
+        img = request.files['file']
+        img_str = base64.b64encode(img.getvalue())
+        print(img_str)
+        
         pictable = Picture()
         pictable.date = date
-        pictable.pic = 1
+        pictable.pic = img_str
         pictable.user_id = session['id']
+
         db.session.add(pictable)
         db.session.commit()
+   
     return render_template('/upload.html')    
 
 @app.route('/picture') #사진 창 들어가기
 def picture():
+    pictable = Picture().query.filterby(userid=session['id']).first()
+    img = pictable.pic
+    img = base64.decodestring(img)
+    session['img_total']=img
     return render_template('/picture.html')
 
 @app.route('/picture/prev',methods=['POST']) #프로필탭 이전사진으로`

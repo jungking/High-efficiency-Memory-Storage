@@ -22,7 +22,7 @@
   
 <body>
   {% include 'main/nav.html'%}
-    <form method="POST" style="text-align:center;">
+    <form method="POST" style="text-align:center;" enctype = "multipart/form-data" >
       <div class="container">
         <br/><br/><br/>
         <h2>1. 사진찍은 날짜 선택하기</h2>
@@ -31,8 +31,8 @@
         </div>
     </div>
         <br/><br/><h2> 2. 사진 파일 올리기 </h2>
-        <input type="text" name="pic">
-        <button type="submit">사진 저장</button>
+        <input type="file" name="file"/>
+        <button type="submit">사진 등록</button>
     </form>
     <div style="text-align:center;">
         <p><br/>

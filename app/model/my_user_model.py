@@ -24,7 +24,7 @@ class Picture(db.Model): #데이터 모델을 나타내는 객체 선언
     
     id = db.Column(db.Integer, primary_key=True)
     date  = db.Column(db.String(10), nullable=False)
-    pic = db.Column(db.String(32), nullable=False)
+    pic = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user_table.id'),)    
 
     #user = db.relationship("User", backref=db.backref("user_id"))
