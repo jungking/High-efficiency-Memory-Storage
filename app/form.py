@@ -18,11 +18,12 @@ class LoginForm(FlaskForm):
         def __call__(self, form, field):
             user = form['userid'].data
             pwd = form['password'].data
-            session['id'] = User.query.filter_by(userid=user).first().id
 
             usertable = User.query.filter_by(userid=user,password=pwd).first()
             if usertable is None:
             	raise ValueError('아이디 또는 비밀번호가 틀림')
+            else:
+                session['id'] = User.query.filter_by(userid=user).first().id
                 
     userid = StringField('userid', validators=[DataRequired()])
     password = PasswordField('password', validators=[DataRequired(), UserPassword()])
