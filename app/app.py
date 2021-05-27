@@ -97,9 +97,10 @@ def datecal(date=None):
 
 @app.route('/picture') #사진 창 들어가기
 def picture():
-    pictable = Picture().query.filterby(userid=session['id']).first()
+    pictable = Picture().query.filter_by(user_id=session['id']).first()
     img = pictable.pic
-    img = base64.decodestring(img)
+    print(img)
+    img = base64.b64decode(img)
     session['img_total']=img
     return render_template('/picture.html')
 
