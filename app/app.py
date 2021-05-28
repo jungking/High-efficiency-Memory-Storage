@@ -1,6 +1,6 @@
 import os.path
-from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+import pymysql
 from flask import request, Flask, session, render_template, redirect, url_for
 from .model.my_user_model import User
 from .model.my_user_model import Picture
@@ -11,6 +11,10 @@ from io import BytesIO
 import sys
 
 app = Flask(__name__)
+
+database = pymysql.connect(host="localhost",user="root",passwd="kh12241224",db="flask_db",charset="utf8")
+cur = database.cursor()
+
 app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
@@ -52,11 +56,17 @@ def signup():
             usertable = User()
             usertable.userid = userid
             usertable.password = password
-            
             db.session.add(usertable)
             db.session.commit()
-
             session['user'] = userid
+
+            sql = "SELECT * from user_table"
+            cur.execute(sql)
+
+            data_list = cur.fetchall()
+            print(data_list[0])
+            print(data_list[1])
+
             
             return redirect('/')
         return render_template('sign/signup.html',form=form)
