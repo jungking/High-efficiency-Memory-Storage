@@ -1,13 +1,11 @@
 import os.path
-import pymysql
 from flaskext.mysql import MySQL
-from flask import request, Flask, session, render_template, redirect, url_for
-from .model.my_user_model import User
+from flask import request, Flask,flash, session, render_template, redirect, url_for
 from .model.my_user_model import Picture
-from .model.my_user_model import db
 from .form import *
 import base64
-import sys
+from io import BytesIO
+from PIL import Image
 
 mysql = MySQL()
 app = Flask(__name__)
@@ -58,14 +56,13 @@ def signin():
         for row in data:
             data = row[0]
         if data:
-            print('logind success')
             session['logflag'] = 1
             session['userid'] = userid
-            print(session['userid'])
+            print(session['userid'],"으로 로그인 성공")
             return redirect('/')
         else:
             error = '아이디나 패스워드가 틀립니다.'
-            return redirect('sign/signin.html',error=error)
+            return render_template('sign/signin.html',error=error)
 
         #return redirect('/')
     #return render_template('sign/signin.html',error = error)
@@ -79,24 +76,29 @@ def signup():
     else:
         userid = request.form['userid']
         password = request.form['password']
-        if not(userid or password):
-            return "입력 필수"
-        else:
-            conn = mysql.connect()
-            cursor = conn.cursor()
+
+        conn = mysql.connect()
+        cursor = conn.cursor()
             
+        sql = "SELECT userid FROM user_table WHERE userid = %s"
+        value = (userid)
+        cursor.execute(sql,value)
+        redup_data = cursor.fetchall()
+
+        if redup_data:
+            error = "이미 등록된 아이디입니다."
+            return render_template("sign/signup.html",error=error)
+        else:
             sql = "INSERT INTO user_table(userid, password) VALUES('%s', '%s')" %(userid,password)
             cursor.execute(sql)
-
             data = cursor.fetchall()
 
             if not data:
                 conn.commit()
-
                 return redirect(url_for('index'))
             else:
                 conn.rollback()
-                return "Register Failed"
+                return "회원가입 실패"
 
             cursor.close()
             conn.close()
@@ -117,33 +119,56 @@ def profile():
     return render_template('/profile.html')
 
 @app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
-def datecal(date=None):
+def datecal():
     if request.method =='GET':
         return render_template("upload.html")
     else:
         date = request.form['date']
-        img = request.files['file']
-        img_str = base64.b64encode(img.getvalue())
-        print(img_str)
+        file = request.files['file']
+        user_id = session['userid']
         
-        pictable = Picture()
-        pictable.date = date
-        pictable.pic = img_str
-        pictable.user_id = session['id']
+        buffer = BytesIO()
+        img = Image.open(file)
+        #img.show()
+        img.save(buffer, format="png")
+        img_str = base64.b64encode(buffer.getvalue())
+        #img_str = binary_image.decode('UTF-8')
+        #print(img_str)
 
-        db.session.add(pictable)
-        db.session.commit()
-   
-    return render_template('/upload.html')    
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
+        sql = "INSERT INTO picture_table(date,pic,user_id) VALUES (%s,%s,%s)"
+        cursor.execute(sql,(date,img_str,user_id))
+        data = cursor.fetchall()
+
+        if not data:
+            conn.commit()
+            flash("업로드 성공")
+            msg = "업로드 성공"
+            return render_template('/upload.html', msg = msg)
+        else:
+            conn.rollback()
+            flash("업로드 실패")
+            error = "업로드 실패"
+            return render_template('/upload.html',error = error)    
 
 @app.route('/picture') #사진 창 들어가기
 def picture():
-    pictable = Picture().query.filter_by(user_id=session['id']).first()
-    img = pictable.pic
-    print(img)
-    img = base64.b64decode(img)
-    session['img_total']=img
-    return render_template('/picture.html')
+    
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    sql = "SELECT pic FROM picture_table limit 1"
+    cursor.execute(sql)
+    images = cursor.fetchone()
+    print(images)
+    if images:
+        get_image = images['image']
+        get_image = get_image.degode("UTF-8")
+    cursor.close()
+    conn.close()
+
+    return render_template('/picture.html',get_image=get_image)
 
 @app.route('/picture/prev',methods=['POST']) #프로필탭 이전사진으로`
 def prev():

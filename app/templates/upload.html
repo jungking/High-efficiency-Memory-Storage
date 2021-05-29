@@ -27,12 +27,22 @@
         <br/><br/><br/>
         <h2>1. 사진찍은 날짜 선택하기</h2>
         <div class="input-group date">
-            <input type="text" name="date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            <input type="text" name="date" class="form-control" required><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
         </div>
     </div>
         <br/><br/><h2> 2. 사진 파일 올리기 </h2>
-        <input type="file" name="file"/>
+        <input type="file" name="file" required/>
         <button type="submit">사진 등록</button>
+        <div class="error">{{error}}</div>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <script>
+              alert("{{messages[-1]}}") 
+            </script>
+          {% endif %}
+        {% endwith %}
+
     </form>
     <div style="text-align:center;">
         <p><br/>
