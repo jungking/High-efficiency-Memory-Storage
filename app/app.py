@@ -1,21 +1,24 @@
 import os.path
-from flask_wtf.csrf import CSRFProtect
 import pymysql
+from flaskext.mysql import MySQL
 from flask import request, Flask, session, render_template, redirect, url_for
 from .model.my_user_model import User
 from .model.my_user_model import Picture
 from .model.my_user_model import db
 from .form import *
 import base64
-from io import BytesIO
 import sys
 
+mysql = MySQL()
 app = Flask(__name__)
 
-database = pymysql.connect(host="localhost",user="root",passwd="kh12241224",db="flask_db",charset="utf8")
-cur = database.cursor()
-
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'kh12241224'
+app.config['MYSQL_DATABASE_DB'] = 'flask_db'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
+
+mysql.init_app(app)
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
@@ -44,29 +47,34 @@ def signin():
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    form = RegisterForm()
+    #form = RegisterForm()
     if request.method == 'GET':
         return render_template("sign/signup.html")
     else:
-        userid = form.data.get('userid')
-        password = form.data.get('password')
-        if not(userid and password):
+        userid = request.form['userid']
+        password = request.form['password']
+        if not(userid or password):
             return "입력 필수"
-        if(userid and password):
-            usertable = User()
-            usertable.userid = userid
-            usertable.password = password
-            db.session.add(usertable)
-            db.session.commit()
-            session['user'] = userid
+        else:
+            conn = mysql.connect()
+            cursor = conn.cursor()
+            
+            sql = "INSERT INTO user_table(userid, password) VALUES('%s', '%s')" %(userid,password)
+            cursor.execute(sql)
 
-            sql = "SELECT * from user_table"
-            cur.execute(sql)
+            data = cursor.fetchall()
+            print(data)
 
-            data_list = cur.fetchall()
-            print(data_list[0])
-            print(data_list[1])
-
+            if not data:
+                conn.commit()
+                session['user'] = id
+                return redirect(url_for('main'))
+            else:
+                conn.rollback()
+                return "register failed"
+            
+            cursor.close()
+            conn.close()
             
             return redirect('/')
         return render_template('sign/signup.html',form=form)
