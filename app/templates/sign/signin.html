@@ -18,34 +18,15 @@
  
       <div class="jumbotron">
         <h1>Sign In</h1>
-<!--         <form class="form-signin" action="/" method="post">
-        <label for="inputEmail" class="sr-only">ID</label>
-        <input type="userid" name="inputid" id="inputid" class="form-control" placeholder="ID" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+        <form class="form-signin" method="POST">
+        <label for="userid" class="sr-only">ID</label>
+        <input type="text" name="userid" id="userid" class="form-control" placeholder="ID" required>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
          
-        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
-      </form> -->
-      <form method="POST" >
-        {{form.csrf_token}} <!--csft활성화-->
-        <div class="form-group">
-            {{form.userid.label("아이디")}}
-            {{form.userid(class="form-control", placeholder="아이디")}}
-        </div>
-
-        <div class="form-group">
-            {{form.password.label("비밀번호")}}
-            {%if form.password.errors%}  
-            <!-- 로그인 실패시 errors/ password필드의 모든 에러를 갖고있다. -->
-            {{form.password.errors.0}}
-            <!--0 : 첫번째 에러메시지를 출력 하겠다 라는 뜻  -->
-            {%endif%}
-            {{form.password(class="form-control", placeholder="비밀번호")}}
-
-        </div>
-
-        <button type="submit" class="btn btn-primary">제출</button>
-    </form>
+        <button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">제출</button>
+      </form> 
+      
 
       </div> 
       <footer class="footer">

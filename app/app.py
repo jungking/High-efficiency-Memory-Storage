@@ -16,6 +16,8 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'kh12241224'
 app.config['MYSQL_DATABASE_DB'] = 'flask_db'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'
+
 app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
 
 mysql.init_app(app)
@@ -34,20 +36,44 @@ def index():
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
-    form = LoginForm() #로그인폼
-    if form.validate_on_submit(): #인증
-        name = form.data.get('userid')
+    #form = LoginForm() #로그인폼
+    error = None
+    if request.method == 'GET':
+        return render_template("sign/signin.html")
+    else:
+        userid = request.form['userid']
+        password = request.form['password']
+        conn = mysql.connect()
+        cursor = conn.cursor()
         
-        print('{}가 로그인 했습니다'.format(name))
-        session['userid']=name #form에서 가져온 userid를 세션에 저장
-        session['logflag'] = 1
- 
-        return redirect('/') #성공하면 main.html로
-    return render_template('sign/signin.html',form=form)
+        sql = "SELECT userid FROM user_table WHERE userid = %s AND password = %s"
+        value = (userid, password)
+
+        cursor.execute(sql,value)
+        data = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        for row in data:
+            data = row[0]
+        if data:
+            print('logind success')
+            session['logflag'] = 1
+            session['userid'] = userid
+            print(session['userid'])
+            return redirect('/')
+        else:
+            error = '아이디나 패스워드가 틀립니다.'
+            return redirect('sign/signin.html',error=error)
+
+        #return redirect('/')
+    #return render_template('sign/signin.html',error = error)
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     #form = RegisterForm()
+    error = None
     if request.method == 'GET':
         return render_template("sign/signup.html")
     else:
@@ -63,21 +89,18 @@ def signup():
             cursor.execute(sql)
 
             data = cursor.fetchall()
-            print(data)
 
             if not data:
                 conn.commit()
-                session['user'] = id
-                return redirect(url_for('main'))
+
+                return redirect(url_for('index'))
             else:
                 conn.rollback()
-                return "register failed"
-            
+                return "Register Failed"
+
             cursor.close()
             conn.close()
-            
-            return redirect('/')
-        return render_template('sign/signup.html',form=form)
+        return render_template('sign/signup.html',error = error)
 
 @app.route('/nav')
 def nav(userid):
@@ -134,17 +157,17 @@ def next():
 basedir = os.path.abspath(os.path.dirname(__file__)) #현재 파일이 있는 디렉토리 절대 경로
 dbfile = os.path.join(basedir, 'db.sqlite') #데이터베이스 파일을 만든다
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
-app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #추가 메모리를 사용하므로 꺼둔다
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
+#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #추가 메모리를 사용하므로 꺼둔다
 
 
 #csrf = CSRFProtect()
 #csrf.init_app(app)
 
-db.init_app(app) #app설정값 초기화
-db.app = app #Models.py에서 db를 가져와서 db.app에 app을 명시적으로 넣는다
-db.create_all() #DB생성
+#db.init_app(app) #app설정값 초기화
+#db.app = app #Models.py에서 db를 가져와서 db.app에 app을 명시적으로 넣는다
+#db.create_all() #DB생성
 
    
 #app.run(debug=True)
