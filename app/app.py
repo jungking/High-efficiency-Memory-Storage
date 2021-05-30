@@ -1,7 +1,7 @@
 import os.path
 from flaskext.mysql import MySQL
 from flask import request, Flask,flash, session, render_template, redirect, url_for
-from .form import *
+
 import base64
 from io import BytesIO
 from PIL import Image
