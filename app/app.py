@@ -1,7 +1,6 @@
 import os.path
 from flaskext.mysql import MySQL
 from flask import request, Flask,flash, session, render_template, redirect, url_for
-from .model.my_user_model import Picture
 from .form import *
 import base64
 from io import BytesIO
@@ -178,23 +177,6 @@ def prev():
 def next():
     return render_template('/picture.html')
 
-#데이터베이스---------
-basedir = os.path.abspath(os.path.dirname(__file__)) #현재 파일이 있는 디렉토리 절대 경로
-dbfile = os.path.join(basedir, 'db.sqlite') #데이터베이스 파일을 만든다
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + dbfile
-#app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True #사용자에게 정보 전달완료하면 teadown. 그 때마다 커밋=DB반영
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #추가 메모리를 사용하므로 꺼둔다
-
-
-#csrf = CSRFProtect()
-#csrf.init_app(app)
-
-#db.init_app(app) #app설정값 초기화
-#db.app = app #Models.py에서 db를 가져와서 db.app에 app을 명시적으로 넣는다
-#db.create_all() #DB생성
-
-   
-#app.run(debug=True)
 app.run(debug=True,host="127.0.0.1",port=5000)
 
