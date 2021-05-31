@@ -55,8 +55,9 @@ def signin():
         for row in data:
             data = row[0]
         if data:
-            session['logflag'] = 1
+            session['logflag'] = 'logged in'
             session['userid'] = userid
+            print(session['logflag'])
             print(session['userid'],"으로 로그인 성공")
             return redirect('/')
         else:
@@ -110,7 +111,8 @@ def nav(userid):
 @app.route('/logout')
 def logout():
     session.pop('userid',None)
-    session.pop('logflag',None)
+    session['logflag'] = 'logged out'
+    print(session['logflag'])
     return redirect('/')
 
 @app.route('/profile') #프로필 창 들어가기
