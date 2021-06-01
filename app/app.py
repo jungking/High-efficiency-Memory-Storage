@@ -1,7 +1,6 @@
 import os.path
 from flaskext.mysql import MySQL
 from flask import request, Flask,flash, session, render_template, redirect, url_for
-
 import base64
 from io import BytesIO
 from PIL import Image
@@ -33,7 +32,6 @@ def index():
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
-    #form = LoginForm() #로그인폼
     error = None
     if request.method == 'GET':
         return render_template("sign/signin.html")
@@ -64,12 +62,8 @@ def signin():
             error = '아이디나 패스워드가 틀립니다.'
             return render_template('sign/signin.html',error=error)
 
-        #return redirect('/')
-    #return render_template('sign/signin.html',error = error)
-
 @app.route('/signup', methods=['GET','POST'])
 def signup():
-    #form = RegisterForm()
     error = None
     if request.method == 'GET':
         return render_template("sign/signup.html")
@@ -93,16 +87,17 @@ def signup():
             cursor.execute(sql)
             data = cursor.fetchall()
 
+            #cursor.close()
+            #conn.close()
+
             if not data:
                 conn.commit()
                 return redirect(url_for('index'))
             else:
                 conn.rollback()
-                return "회원가입 실패"
+                print("회원가입 실패")
+                return render_template('sign/signup.html')
 
-            cursor.close()
-            conn.close()
-        return render_template('sign/signup.html',error = error)
 
 @app.route('/nav')
 def nav(userid):
