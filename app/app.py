@@ -98,7 +98,6 @@ def signup():
                 print("회원가입 실패")
                 return render_template('sign/signup.html')
 
-
 @app.route('/nav')
 def nav(userid):
     return render_template('main/nav.html', userid = userid)
@@ -125,11 +124,8 @@ def datecal():
         
         buffer = BytesIO()
         img = Image.open(file)
-        #img.show()
         img.save(buffer, format="png")
         img_str = base64.b64encode(buffer.getvalue())
-        #img_str = binary_image.decode('UTF-8')
-        #print(img_str)
 
         conn = mysql.connect()
         cursor = conn.cursor()
