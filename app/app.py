@@ -170,6 +170,5 @@ def prev():
 def next():
     return render_template('/picture.html')
 
-
 app.run(debug=True,host="127.0.0.1",port=5000)
 
