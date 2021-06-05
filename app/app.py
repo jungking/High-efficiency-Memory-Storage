@@ -150,13 +150,15 @@ def picture():
     
     conn = mysql.connect()
     cursor = conn.cursor()
-    sql = "SELECT pic FROM picture_table limit 1"
+    sql = "SELECT pic FROM picture_table"
+
     cursor.execute(sql)
-    images = cursor.fetchone()
-    print(images)
-    if images:
-        get_image = images['image']
-        get_image = get_image.degode("UTF-8")
+    image = cursor.fetchone()
+    print(image)
+    
+    if image:
+        get_image = image['pic']
+        get_image = get_image.decode("UTF-8")
     cursor.close()
     conn.close()
 
