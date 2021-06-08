@@ -161,7 +161,6 @@ def picture():
         get_image = get_image.decode("UTF-8")
     cursor.close()
     conn.close()
-
     return render_template('/picture.html',get_image=get_image)
 
 @app.route('/picture/prev',methods=['POST']) #프로필탭 이전사진으로`
