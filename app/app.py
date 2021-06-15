@@ -126,11 +126,10 @@ def datecal():
         img = Image.open(file)
         img.save(buffer, format="png")
         img_str = base64.b64encode(buffer.getvalue())
-
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        sql = "INSERT INTO picture_table(date,pic,user_id) VALUES (%s,%s,%s)"
+        sql = "INSERT INTO picture_table(date,pic,userid) VALUES (%s,%s,%s)"
         cursor.execute(sql,(date,img_str,user_id))
         data = cursor.fetchall()
 
@@ -154,10 +153,10 @@ def picture():
 
     cursor.execute(sql)
     image = cursor.fetchone()
-    print(image)
+    #print(image)
     
     if image:
-        get_image = image['pic']
+        get_image = image[0]                                    # 0번째 이미지 출력
         get_image = get_image.decode("UTF-8")
     cursor.close()
     conn.close()
