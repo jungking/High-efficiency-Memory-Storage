@@ -1,9 +1,6 @@
 **/__pycache__
-.app.__pycache__
-.app.model.__pycache__
 .vscode
-db.sqlite-journal
-app.cpython-38.pyc
 config.py
 __pycache__
-app/__pycache__/
+
+app/__pycache__/app.cpython-38.pyc
