@@ -6,3 +6,4 @@ db.sqlite-journal
 app.cpython-38.pyc
 config.py
 __pycache__
+app/__pycache__/
