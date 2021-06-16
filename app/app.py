@@ -16,6 +16,7 @@ app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'
 
 app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
 
+image_num, n = 0, 0
 mysql.init_app(app)
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
@@ -149,14 +150,19 @@ def picture():
     
     conn = mysql.connect()
     cursor = conn.cursor()
-    sql = "SELECT pic FROM picture_table"
-
-    cursor.execute(sql)
-    image = cursor.fetchone()
+    user_id = session['userid']
+    sql = "SELECT pic FROM picture_table WHERE userid = %s"
+    value = (user_id)
+    cursor.execute(sql,value)
+    image = cursor.fetchall()
     #print(image)
-    
+    global image_num
+    global n
+    image_num = n
+
     if image:
-        get_image = image[0]                                    # 0번째 이미지 출력
+        print('image_num ===',image_num)
+        get_image = image[image_num][0]                 # 2차원 튜플 형식                   # 0번째 이미지 출력
         get_image = get_image.decode("UTF-8")
     cursor.close()
     conn.close()
@@ -164,10 +170,45 @@ def picture():
 
 @app.route('/picture/prev',methods=['POST']) #프로필탭 이전사진으로`
 def prev():
-    return render_template('/picture.html')
+    global image_num
+    global n
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    user_id = session['userid']
+    sql = "SELECT id FROM picture_table WHERE userid = %s"
+    value = (user_id)
+    cursor.execute(sql,value)
+
+    if (image_num == 0):
+        flash("가장 처음 사진입니다.")
+        print(image_num)
+        return redirect('/picture')
+    else:
+        n = image_num-1
+        image_num = n
+        print(n)
+        print(image_num)
+        return redirect('/picture')
 
 @app.route('/picture/next',methods=['POST']) #프로필탭 다음사진으로
 def next():
-    return render_template('/picture.html')
+    global image_num
+    global n
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    user_id = session['userid']
+    sql = "SELECT id FROM picture_table WHERE userid = %s"
+    value = (user_id)
+    cursor.execute(sql,value)
+    num = [item[0] for item in cursor.fetchall()]
+
+    if (image_num == len(num)-1):
+        flash("가장 마지막 사진입니다.")
+        image_num = image_num
+        return render_template('/picture.html')
+    else:
+        n = image_num+1
+        image_num = n
+        return redirect('/picture')
 
 app.run(debug=True,host="127.0.0.1",port=5000)
