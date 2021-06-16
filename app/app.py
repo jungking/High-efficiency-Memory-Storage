@@ -4,6 +4,7 @@ from flask import request, Flask,flash, session, render_template, redirect, url_
 import base64
 from io import BytesIO
 from PIL import Image
+import datetime
 
 mysql = MySQL()
 app = Flask(__name__)
@@ -41,7 +42,7 @@ def signin():
         password = request.form['password']
         conn = mysql.connect()
         cursor = conn.cursor()
-        
+
         sql = "SELECT userid FROM user_table WHERE userid = %s AND password = %s"
         value = (userid, password)
 
@@ -71,7 +72,8 @@ def signup():
     else:
         userid = request.form['userid']
         password = request.form['password']
-
+        subd = datetime.datetime.now().strftime("%Y-%m-%d")
+        print(subd)
         conn = mysql.connect()
         cursor = conn.cursor()
             
@@ -84,7 +86,7 @@ def signup():
             error = "이미 등록된 아이디입니다."
             return render_template("sign/signup.html",error=error)
         else:
-            sql = "INSERT INTO user_table(userid, password) VALUES('%s', '%s')" %(userid,password)
+            sql = "INSERT INTO user_table(userid, password, sub_date) VALUES('%s', '%s', '%s')" %(userid,password,subd)
             cursor.execute(sql)
             data = cursor.fetchall()
 
@@ -110,9 +112,17 @@ def logout():
     print(session['logflag'])
     return redirect('/')
 
-@app.route('/profile') #프로필 창 들어가기
+@app.route('/profile',methods=['POST','GET']) #프로필 창 들어가기
 def profile():
-    return render_template('/profile.html')
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    userid = session['userid']
+    sql = "SELECT sub_date FROM user_table WHERE userid = %s"
+    value = (userid)
+    cursor.execute(sql,value)
+    data = cursor.fetchone()
+
+    return render_template('/profile.html',data = data)
 
 @app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
 def datecal():
