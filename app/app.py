@@ -120,9 +120,9 @@ def profile():
     sql = "SELECT sub_date FROM user_table WHERE userid = %s"
     value = (userid)
     cursor.execute(sql,value)
-    data = cursor.fetchone()
-
-    return render_template('/profile.html',data = data)
+    timedata = cursor.fetchone()
+    print(timedata[0])
+    return render_template('/profile.html',timedata = timedata[0])
 
 @app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
 def datecal():
