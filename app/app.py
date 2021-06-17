@@ -132,7 +132,8 @@ def datecal():
         date = request.form['date']
         file = request.files['file']
         user_id = session['userid']
-        
+        content = request.form['content']
+
         buffer = BytesIO()
         img = Image.open(file)
         img.save(buffer, format="png")
@@ -140,8 +141,8 @@ def datecal():
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        sql = "INSERT INTO picture_table(date,pic,userid) VALUES (%s,%s,%s)"
-        cursor.execute(sql,(date,img_str,user_id))
+        sql = "INSERT INTO picture_table(date,pic,userid,content) VALUES (%s,%s,%s,%s)"
+        cursor.execute(sql,(date,img_str,user_id,content))
         data = cursor.fetchall()
 
         if not data:
@@ -161,7 +162,7 @@ def picture():
     conn = mysql.connect()
     cursor = conn.cursor()
     user_id = session['userid']
-    sql = "SELECT pic FROM picture_table WHERE userid = %s"
+    sql = "SELECT pic, content FROM picture_table WHERE userid = %s"
     value = (user_id)
     cursor.execute(sql,value)
     image = cursor.fetchall()
@@ -169,14 +170,14 @@ def picture():
     global image_num
     global n
     image_num = n
-
     if image:
-        print('image_num ===',image_num)
         get_image = image[image_num][0]                 # 2차원 튜플 형식                   # 0번째 이미지 출력
+        get_content = image[image_num][1]
         get_image = get_image.decode("UTF-8")
+    
     cursor.close()
     conn.close()
-    return render_template('/picture.html',get_image=get_image)
+    return render_template('/picture.html',get_image=get_image, content = get_content)
 
 @app.route('/picture/prev',methods=['POST']) #프로필탭 이전사진으로`
 def prev():
