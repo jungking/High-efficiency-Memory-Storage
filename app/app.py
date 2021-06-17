@@ -6,6 +6,8 @@ from io import BytesIO
 from PIL import Image
 import datetime
 
+from pymysql import NULL
+
 mysql = MySQL()
 app = Flask(__name__)
 
@@ -141,8 +143,18 @@ def datecal():
         conn = mysql.connect()
         cursor = conn.cursor()
 
-        sql = "INSERT INTO picture_table(date,pic,userid,content) VALUES (%s,%s,%s,%s)"
-        cursor.execute(sql,(date,img_str,user_id,content))
+        sql = "SELECT MAX(sub_id) FROM picture_table WHERE userid = %s"
+        cursor.execute(sql,(user_id))
+        sub_id = cursor.fetchone()
+        
+        if None in sub_id :
+            sub_id = 1
+        else:
+            sub_id = sub_id[0]
+            sub_id = sub_id + 1
+
+        sql = "INSERT INTO picture_table(sub_id,date,pic,userid,content) VALUES (%s,%s,%s,%s,%s)"
+        cursor.execute(sql,(sub_id,date,img_str,user_id,content))
         data = cursor.fetchall()
 
         if not data:
@@ -192,13 +204,11 @@ def prev():
 
     if (image_num == 0):
         flash("가장 처음 사진입니다.")
-        print(image_num)
+        print("가장 처음")
         return redirect('/picture')
     else:
         n = image_num-1
         image_num = n
-        print(n)
-        print(image_num)
         return redirect('/picture')
 
 @app.route('/picture/next',methods=['POST']) #프로필탭 다음사진으로
@@ -215,6 +225,7 @@ def next():
 
     if (image_num == len(num)-1):
         flash("가장 마지막 사진입니다.")
+        print("가장 마지막")
         image_num = image_num
         return render_template('/picture.html')
     else:
