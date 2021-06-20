@@ -188,12 +188,14 @@ def picture():
     get_content = 0
 
     if session['seeall'] == 1:
-        for i in range(image_num):
+        num = [item[0] for item in cursor.fetchall()]
+        for i in range(len(num)):
             get_image_all.append(image[i][0])
             get_content_all.append(image[i][1])
             get_image_all[i] = get_image_all[i].decode("UTF-8") 
-            print('zzzzzzzzz')
-            print(get_content_all)   
+        print('zzzzzzzzz')
+        print(get_image_all)
+        print(get_content_all)   
     else:
         get_image = image[image_num][0]                 # 2차원 튜플 형식                   # 0번째 이미지 출력
         get_content = image[image_num][1]
