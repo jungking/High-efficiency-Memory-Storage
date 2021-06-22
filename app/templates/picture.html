@@ -13,11 +13,6 @@
         <br/><br/><h3> 달력</br></h3>
         <br/><br/><h5> 사진 출력</h5>
     </form>
-
-    {% if msg == "가장 처음" or msg == "가장 마지막"%}
-      {{msg}}
-    {% else %}
-      {% if session['seeall'] %}
         {% for i in range(imagelen) %}      
           {{get_content_all[i]}}
           <div class = "imageFlex1">
@@ -26,24 +21,9 @@
           </p>
           </div>
         {% endfor %}
-
-      {% else %}
-        {{get_content}}
-        <div class = "imageFlex2">
-        <p>
-          <img src="data:image/jpeg;charset=utf-8;base64,{{get_image}}">
-        </p>
-        </div>
-      {% endif %}
-      {% endif %}
         <form method="POST" action="/picture/seeall" style="text-align:center;">        
         <button type="seeall">전체 사진 보기</button>
     </form>
-    <form method="POST" action="/picture/prev" style="text-align:center;">        
-        <button type="prev">이전 사진</button>
-    </form>
-        <form method="POST" action="/picture/next" style="text-align:center;">        
-    <button type="next">다음 사진</button>
     </form>
     </div>
     </div>

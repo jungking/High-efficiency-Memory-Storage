@@ -173,37 +173,36 @@ def picture():
     conn = mysql.connect()
     cursor = conn.cursor()
     user_id = session['userid']
-    sql = "SELECT pic, content FROM picture_table WHERE userid = %s"
+    sql = "SELECT sub_id, date, pic, content FROM picture_table WHERE userid = %s"        
+    #subid, date, pic, content
     value = (user_id)
     cursor.execute(sql,value)
     image = cursor.fetchall()
-    #print(image)
     global image_num
     global n
     image_num = n
-    #print(session['seeall'])
+
     get_image_all = []
     get_content_all = []
+    get_subid_all = []
+    get_date_all = []
     get_image = 0
     get_content = 0
     print(image_num)
     print(n)
-
+    print( session['seeall'])
     if session['seeall']:
         for i in range(len(image)):
-            get_image_all.append(image[i][0])
-            get_content_all.append(image[i][1])
+            get_subid_all.append(image[i][0])       #subid
+            get_date_all.append(image[i][1])        #date
+            get_image_all.append(image[i][2])       #pic
+            get_content_all.append(image[i][3])     #content
             get_image_all[i] = get_image_all[i].decode("UTF-8") 
 
-    if session['seeall'] == None:
-        print(session['seeall'])
-        get_image = image[image_num][0]                 # 2차원 튜플 형식                   # 0번째 이미지 출력
-        get_content = image[image_num][1]
-        get_image = get_image.decode("UTF-8")
 
     cursor.close()
     conn.close()
-    return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all))
+    return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all),get_date_all = get_date_all, get_subid_all = get_subid_all)
 
 @app.route('/picture/seeall',methods=['POST']) #프로필탭 이전사진으로`
 def seeall():
@@ -215,7 +214,6 @@ def seeall():
 def prev():
     global image_num
     global n
-    session['seeall'] = None
     conn = mysql.connect()
     cursor = conn.cursor()
     user_id = session['userid']
@@ -236,7 +234,6 @@ def prev():
 def next():
     global image_num
     global n
-    session['seeall'] = None
     conn = mysql.connect()
     cursor = conn.cursor()
     user_id = session['userid']
