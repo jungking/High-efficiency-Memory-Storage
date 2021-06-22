@@ -186,6 +186,8 @@ def picture():
     get_content_all = []
     get_image = 0
     get_content = 0
+    print(image_num)
+    print(n)
 
     if session['seeall']:
         for i in range(len(image)):
@@ -209,7 +211,7 @@ def seeall():
     return redirect('/picture')
 
 
-@app.route('/picture/prev',methods=['POST']) #프로필탭 이전사진으로`
+@app.route('/picture/prev',methods=['GET','POST']) #프로필탭 이전사진으로`
 def prev():
     global image_num
     global n
@@ -222,15 +224,15 @@ def prev():
     cursor.execute(sql,value)
 
     if (image_num == 0):
-        flash("가장 처음 사진입니다.")
-        print("가장 처음")
-        return redirect('/picture')
+        msg = "가장 처음"
+        image_num = 0
+        return render_template('/picture.html', msg = msg)
     else:
         n = image_num-1
         image_num = n
         return redirect('/picture')
 
-@app.route('/picture/next',methods=['POST']) #프로필탭 다음사진으로
+@app.route('/picture/next',methods=['GET','POST']) #프로필탭 다음사진으로
 def next():
     global image_num
     global n
@@ -244,10 +246,9 @@ def next():
     num = [item[0] for item in cursor.fetchall()]
 
     if (image_num == len(num)-1):
-        flash("가장 마지막 사진입니다.")
-        print("가장 마지막")
+        msg = "가장 마지막"
         image_num = image_num
-        return render_template('/picture.html')
+        return render_template('/picture.html', msg = msg)
     else:
         n = image_num+1
         image_num = n
