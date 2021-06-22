@@ -168,7 +168,7 @@ def datecal():
             error = "업로드 실패"
             return render_template('/upload.html',error = error)    
 
-@app.route('/picture') #사진 창 들어가기
+@app.route('/picture', methods = ['GET','POST']) #사진 창 들어가기
 def picture():
     conn = mysql.connect()
     cursor = conn.cursor()
@@ -187,27 +187,27 @@ def picture():
     get_image = 0
     get_content = 0
 
-    if session['seeall'] == 1:
-        num = [item[0] for item in cursor.fetchall()]
-        for i in range(len(num)):
+    if session['seeall']:
+        for i in range(len(image)):
             get_image_all.append(image[i][0])
             get_content_all.append(image[i][1])
             get_image_all[i] = get_image_all[i].decode("UTF-8") 
-        print('zzzzzzzzz')
         print(get_image_all)
-        print(get_content_all)   
-    else:
+        print(get_content_all)
+        
+    if session['seeall'] == None:
+        print(session['seeall'])
         get_image = image[image_num][0]                 # 2차원 튜플 형식                   # 0번째 이미지 출력
         get_content = image[image_num][1]
         get_image = get_image.decode("UTF-8")
 
     cursor.close()
     conn.close()
-    return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all)
+    return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all))
 
 @app.route('/picture/seeall',methods=['POST']) #프로필탭 이전사진으로`
 def seeall():
-    session['seeall'] = 1
+    session['seeall'] = '1'
     return redirect('/picture')
 
 
@@ -215,7 +215,7 @@ def seeall():
 def prev():
     global image_num
     global n
-    session['seeall'] = 0
+    session['seeall'] = None
     conn = mysql.connect()
     cursor = conn.cursor()
     user_id = session['userid']
@@ -236,7 +236,7 @@ def prev():
 def next():
     global image_num
     global n
-    session['seeall'] = 0
+    session['seeall'] = None
     conn = mysql.connect()
     cursor = conn.cursor()
     user_id = session['userid']

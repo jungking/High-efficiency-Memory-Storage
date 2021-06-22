@@ -11,8 +11,8 @@
         <br/><br/><h5> 사진 출력</h5>
         <!-- <input type="text" name="num"> -->
     </form>
-    {% if session['seeall'] == 1 and get_content_all[1] %}
-      {% for i in range(get_content_all) %}      
+    {% if session['seeall'] %}
+      {% for i in range(imagelen) %}      
         {{get_content_all[i]}}
         <p>
           <img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i]}}">
