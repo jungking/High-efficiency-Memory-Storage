@@ -24,8 +24,12 @@ h1 {
       gap: 30px;
       grid-auto-flow: row dense;
     }
-    .imageFlex {
+    .imageFlex1 {
       display: grid;
       row-gap: 20px;
     }
+    .imageFlex2 {
+        display: grid;
+        row-gap: 20px;
+      }
   }

@@ -5,29 +5,32 @@
     <link rel="stylesheet" href="./picture.css">
   </head>
 <body>
+  <div class="container">
+  <div class="images">
   {% include 'main/nav.html'%}
     <form style="text-align:center;">        
         <br/><br/><h1> Picture </h1>
         <br/><br/><h3> 달력</br></h3>
         <br/><br/><h5> 사진 출력</h5>
-        <!-- <input type="text" name="num"> -->
     </form>
-    <div class = "images">
     {% if session['seeall'] %}
       {% for i in range(imagelen) %}      
         {{get_content_all[i]}}
+        <div class = "imageFlex1">
         <p>
           <img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i]}}">
         </p>
+        </div>
       {% endfor %}
 
     {% else %}
       {{get_content}}
+      <div class = "imageFlex2">
       <p>
         <img src="data:image/jpeg;charset=utf-8;base64,{{get_image}}">
       </p>
+      </div>
     {% endif %}
-    </div>
         <form method="POST" action="/picture/seeall" style="text-align:center;">        
         <button type="seeall">전체 사진 보기</button>
     </form>
@@ -37,10 +40,7 @@
         <form method="POST" action="/picture/next" style="text-align:center;">        
     <button type="next">다음 사진</button>
     </form>
-
-    <div style="text-align:center;"></div>
-        <p><br/>
-        </p>
+    </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

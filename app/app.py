@@ -192,9 +192,7 @@ def picture():
             get_image_all.append(image[i][0])
             get_content_all.append(image[i][1])
             get_image_all[i] = get_image_all[i].decode("UTF-8") 
-        print(get_image_all)
-        print(get_content_all)
-        
+
     if session['seeall'] == None:
         print(session['seeall'])
         get_image = image[image_num][0]                 # 2차원 튜플 형식                   # 0번째 이미지 출력
