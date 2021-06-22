@@ -1,0 +1,31 @@
+body {
+    margin:0;
+}
+h1 {
+    text-align: center;
+}
+
+.container {
+    width:70%;
+    margin : auto;
+    overflow: hidden;
+}
+
+.images img {
+    width:100%;
+    height : 100%;
+    object-fit : contain;
+}
+
+@media (min-width: 640px) {
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 30px;
+      grid-auto-flow: row dense;
+    }
+    .imageFlex {
+      display: grid;
+      row-gap: 20px;
+    }
+  }

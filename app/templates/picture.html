@@ -2,6 +2,7 @@
 <html>
   <head>
     {% include 'main/header.html' %}
+    <link rel="stylesheet" href="./picture.css">
   </head>
 <body>
   {% include 'main/nav.html'%}
@@ -11,6 +12,7 @@
         <br/><br/><h5> 사진 출력</h5>
         <!-- <input type="text" name="num"> -->
     </form>
+    <div class = "images">
     {% if session['seeall'] %}
       {% for i in range(imagelen) %}      
         {{get_content_all[i]}}
@@ -25,6 +27,7 @@
         <img src="data:image/jpeg;charset=utf-8;base64,{{get_image}}">
       </p>
     {% endif %}
+    </div>
         <form method="POST" action="/picture/seeall" style="text-align:center;">        
         <button type="seeall">전체 사진 보기</button>
     </form>
