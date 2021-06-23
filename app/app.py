@@ -25,7 +25,7 @@ mysql.init_app(app)
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     testData = 'testData array'
-    session['seeall'] = None
+    
     """if not session.get('logflag'):
         return render_template('main/index.html', testDataHtml = testData)
     else:
@@ -175,7 +175,6 @@ def picture():
     cursor = conn.cursor()
     user_id = session['userid']
     
-
     sql = "SELECT sub_id, date, pic, content FROM picture_table WHERE userid = %s"        
     #subid, date, pic, content
     value = (user_id)
@@ -193,8 +192,9 @@ def picture():
     get_content = 0
     print(image_num)
     print(n)
-    print( session['seeall'])
-    if session['seeall'] == 1:
+    session['seeall'] = 1
+    print(session['seeall'])
+    if session['seeall']:
         for i in range(len(image)):
             get_subid_all.append(image[i][0])       #subid
             get_date_all.append(image[i][1])        #date
@@ -205,13 +205,19 @@ def picture():
 
     cursor.close()
     conn.close()
-    return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all),get_date_all = get_date_all, get_subid_all = get_subid_all)
+    return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
 
 @app.route('/picture/seeall',methods=['POST']) #프로필탭 이전사진으로`
 def seeall():
     session['seeall'] = 1
-    return redirect('/picture')
+    seeall = 1
+    return redirect('/picture', seeall = seeall)
 
+@app.route('/picture/select',methods=['GET','POST']) #프로필탭 이전사진으로`
+def select():
+    select_id = request.form['select_id']
+    print("???:",select_id)
+    return redirect('/picture', select_id = select_id)
 
 @app.route('/picture/prev',methods=['GET','POST']) #프로필탭 이전사진으로`
 def prev():

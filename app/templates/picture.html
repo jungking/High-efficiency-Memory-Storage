@@ -12,14 +12,15 @@
         <br/><br/><h1> Picture </h1>
         <br/><br/><h3> 달력</br></h3>
         <form method="POST" action="/picture/seeall" style="text-align:center;">        
-        <button type="seeall" >전체 사진 보기</button>
-        
+        <button type="submit" >전체 사진 보기</button>
+       seeall{{seeall}}
         <br/><br/><h5> 사진 출력</h5>
+      </form>
     </form>
-    <form action="/picture/select" style = "text-align:right">
+    <form method = "POST, GET" action="/picture/select" style = "text-align:right">
       여기 안에 리모컨 만들겅미<br/>
       {% for i in range(imagelen) %}      
-        <button type="select" name = "select_id">{{get_subid_all[i]}}</button>
+        <button type="select_id" name = "select_id">{{get_subid_all[i]}}</button>
         날짜 : {{get_date_all[i]}}
         내용 : {{get_content_all[i]}}
         <br/>
@@ -33,7 +34,7 @@
           </p>
           </div>
         {% endfor %}
-        </form>
+
     </div>
     </div>
 
