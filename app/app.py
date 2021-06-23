@@ -25,6 +25,7 @@ mysql.init_app(app)
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     testData = 'testData array'
+    session['seeall'] = None
     """if not session.get('logflag'):
         return render_template('main/index.html', testDataHtml = testData)
     else:
@@ -173,6 +174,8 @@ def picture():
     conn = mysql.connect()
     cursor = conn.cursor()
     user_id = session['userid']
+    
+
     sql = "SELECT sub_id, date, pic, content FROM picture_table WHERE userid = %s"        
     #subid, date, pic, content
     value = (user_id)
@@ -191,7 +194,7 @@ def picture():
     print(image_num)
     print(n)
     print( session['seeall'])
-    if session['seeall']:
+    if session['seeall'] == 1:
         for i in range(len(image)):
             get_subid_all.append(image[i][0])       #subid
             get_date_all.append(image[i][1])        #date
@@ -206,7 +209,7 @@ def picture():
 
 @app.route('/picture/seeall',methods=['POST']) #프로필탭 이전사진으로`
 def seeall():
-    session['seeall'] = '1'
+    session['seeall'] = 1
     return redirect('/picture')
 
 

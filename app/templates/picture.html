@@ -11,6 +11,8 @@
     <form style="text-align:center;">        
         <br/><br/><h1> Picture </h1>
         <br/><br/><h3> 달력</br></h3>
+        <form method="POST" action="/picture/seeall" style="text-align:center;">        
+        <button type="seeall">전체 사진 보기</button>
         <br/><br/><h5> 사진 출력</h5>
     </form>
         {% for i in range(imagelen) %}      
@@ -21,8 +23,7 @@
           </p>
           </div>
         {% endfor %}
-        <form method="POST" action="/picture/seeall" style="text-align:center;">        
-        <button type="seeall">전체 사진 보기</button>
+
     </form>
     </form>
     </div>
