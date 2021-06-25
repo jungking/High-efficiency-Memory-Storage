@@ -207,19 +207,19 @@ def picture():
     conn.close()
     return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
 
-@app.route('/picture/seeall',methods=['POST']) #프로필탭 이전사진으로`
+@app.route('/picture/seeall',methods=['POST','GET']) #프로필탭 이전사진으로`
 def seeall():
     session['seeall'] = 1
     seeall = 1
     return redirect('/picture', seeall = seeall)
 
-@app.route('/picture/select_id',methods=['POST']) #프로필탭 이전사진으로`
-def select(num=None):
+@app.route('/picture/select_id',methods=['POST','GET']) #프로필탭 이전사진으로`
+def select():
     session.pop('seeall',None)
     if request.method == 'POST':
         temp = request.form['num']
         print("???:",temp)
-    return redirect('/picture', select_id = temp)
+    return render_template('/picture.html', select_id = temp)
 
 @app.route('/picture/prev',methods=['GET','POST']) #프로필탭 이전사진으로`
 def prev():

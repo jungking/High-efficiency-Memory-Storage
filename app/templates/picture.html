@@ -35,6 +35,14 @@
     </form>
     
       <br/><br/><h5> 사진 출력</h5>
+      {% if session['seeall'] == None %}
+        {{get_content_all[select_id]}}
+      <div class = "imageFlex1">
+        <p>
+          <img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[select_id]}}">
+        </p>
+      </div>
+      {% else %}
         {% for i in range(imagelen) %}      
           {{get_content_all[i]}}
           <div class = "imageFlex1">
@@ -43,6 +51,7 @@
           </p>
           </div>
         {% endfor %}
+      {% endif %}
 
     </div>
     </div>
