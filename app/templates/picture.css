@@ -5,6 +5,11 @@ h1 {
     text-align: center;
 }
 
+table {
+    margin-left:auto;
+    margin-right:auto;
+}
+
 .container {
     width:70%;
     margin : auto;

@@ -213,11 +213,13 @@ def seeall():
     seeall = 1
     return redirect('/picture', seeall = seeall)
 
-@app.route('/picture/select',methods=['GET','POST']) #프로필탭 이전사진으로`
-def select():
-    select_id = request.form['select_id']
-    print("???:",select_id)
-    return redirect('/picture', select_id = select_id)
+@app.route('/picture/select_id',methods=['POST']) #프로필탭 이전사진으로`
+def select(num=None):
+    session.pop('seeall',None)
+    if request.method == 'POST':
+        temp = request.form['num']
+        print("???:",temp)
+    return redirect('/picture', select_id = temp)
 
 @app.route('/picture/prev',methods=['GET','POST']) #프로필탭 이전사진으로`
 def prev():
