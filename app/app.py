@@ -209,7 +209,7 @@ def seeall():
 
 @app.route('/picture/select_id',methods=['POST','GET']) #프로필탭 이전사진으로`
 def select():
-    session.pop('userid',None)
+    session.pop('seeall',None)
     global selected_num
     selected_num = request.args['num']
     print("템프:",selected_num)
