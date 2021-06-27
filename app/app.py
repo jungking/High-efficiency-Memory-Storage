@@ -19,7 +19,7 @@ app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'
 
 app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
 
-image_num, n = 0, 0
+selected_num = 0
 mysql.init_app(app)
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
@@ -180,9 +180,7 @@ def picture():
     value = (user_id)
     cursor.execute(sql,value)
     image = cursor.fetchall()
-    global image_num
-    global n
-    image_num = n
+    global selected_num
 
     get_image_all = []
     get_content_all = []
@@ -190,11 +188,8 @@ def picture():
     get_date_all = []
     get_image = 0
     get_content = 0
-    print('image_num = ',image_num)
-    print('n = ', n)
-    temp = request.cookies.get('select_num')
-    print('select_num_cookies = ', temp)
-    print('session seeall = ', session['seeall'])
+    num = 0
+    num = selected_num
     if session['seeall']:
         for i in range(len(image)):
             get_subid_all.append(image[i][0])       #subid
@@ -205,66 +200,20 @@ def picture():
 
     cursor.close()
     conn.close()
-    return render_template('/picture.html',seeall = seeall, get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
+    return render_template('/picture.html',seeall = seeall, num = num, get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
 
 @app.route('/picture/seeall',methods=['POST','GET']) #프로필탭 이전사진으로`
 def seeall():
     session['seeall'] = 1
-    seeall = '전체보기'
-    print('seeall2 = ',seeall)
     return redirect('/picture')
 
 @app.route('/picture/select_id',methods=['POST','GET']) #프로필탭 이전사진으로`
 def select():
-    session['seeall'] = 0
-    resp = make_response()
+    session.pop('userid',None)
+    global selected_num
+    selected_num = request.args['num']
+    print("템프:",selected_num)
 
-    temp = request.form['num']
-
-    print("템프 씨팔:",temp)
-    
-    resp.set_cookie('select_num',temp)
     return redirect('/picture')
-
-@app.route('/picture/prev',methods=['GET','POST']) #프로필탭 이전사진으로`
-def prev():
-    global image_num
-    global n
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    user_id = session['userid']
-    sql = "SELECT id FROM picture_table WHERE userid = %s"
-    value = (user_id)
-    cursor.execute(sql,value)
-
-    if (image_num == 0):
-        msg = "가장 처음"
-        image_num = 0
-        return render_template('/picture.html', msg = msg)
-    else:
-        n = image_num-1
-        image_num = n
-        return redirect('/picture')
-
-@app.route('/picture/next',methods=['GET','POST']) #프로필탭 다음사진으로
-def next():
-    global image_num
-    global n
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    user_id = session['userid']
-    sql = "SELECT id FROM picture_table WHERE userid = %s"
-    value = (user_id)
-    cursor.execute(sql,value)
-    num = [item[0] for item in cursor.fetchall()]
-
-    if (image_num == len(num)-1):
-        msg = "가장 마지막"
-        image_num = image_num
-        return render_template('/picture.html', msg = msg)
-    else:
-        n = image_num+1
-        image_num = n
-        return redirect('/picture')
 
 app.run(debug=True,host="127.0.0.1",port=5000)

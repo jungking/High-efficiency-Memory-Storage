@@ -18,7 +18,7 @@
         <br/><br/>
       </form>
     </form>
-    <form method="POST" action = "picture/select_id" >
+    <form method="POST,GET" action = "picture/select_id" >
       <table border = 2 style = "margin-left:auto; margin-right:auto;">
         <th>번호</th>
         <th>날짜</th>
@@ -30,17 +30,18 @@
           <td>{{get_content_all[i]}}</td>
         </tr>
       {% endfor %}
-      <input type="text" name = "num">
-      <button type = "submit">제출</button>
+      <input type="text" name = "num" >
+      <button type = "submit" >제출</button>
       </table>
     </form>
   
       <br/><br/><h5> 사진 출력</h5>
       {% if 'seeall' not in session %}
-        {{get_content_all[select_id]}}
+      ???
+        {{get_content_all[num]}}
       <div class = "imageFlex1">
         <p>
-          <img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[select_id]}}">
+          <img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[num]}}">
         </p>
       </div>
       {% else %}
