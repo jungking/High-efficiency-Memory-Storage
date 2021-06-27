@@ -207,7 +207,7 @@ def picture():
     conn.close()
     return render_template('/picture.html',seeall = seeall, get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
 
-@app.route('/picture/seeall',methods=['POST']) #프로필탭 이전사진으로`
+@app.route('/picture/seeall',methods=['POST','GET']) #프로필탭 이전사진으로`
 def seeall():
     session['seeall'] = 1
     seeall = '전체보기'

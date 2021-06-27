@@ -12,7 +12,8 @@
         <br/><br/><h1> Picture </h1>
         <br/><br/><h3> 달력</br></h3>
         <form method="POST" action="/picture/seeall" style="text-align:center;">        
-        <a href="http://127.0.0.1:5000/picture/seeall"><button type="submit" >전체 사진 보기</button></a>
+
+        <button type="button", onclick = "location.href = 'http://127.0.0.1:5000/picture/seeall'" >전체 사진 보기</button>
         seeall{{session['seeall']}}
         <br/><br/>
       </form>
