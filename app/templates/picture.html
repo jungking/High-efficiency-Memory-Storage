@@ -12,49 +12,54 @@
         <br/><br/><h1> Picture </h1>
         <br/><br/><h3> 달력</br></h3>
         <form method="POST" action="/picture/seeall" style="text-align:center;">        
-
         <button type="button", onclick = "location.href = 'http://127.0.0.1:5000/picture/seeall'" >전체 사진 보기</button>
-        seeall{{session['seeall']}}
+        <br/>seeall
+        {{session['seeall']}}
         <br/><br/>
       </form>
     </form>
-    <form method="POST,GET" action = "picture/select_id" >
+    <form method="POST,GET" action = "picture/select_id"  style="text-align:center;" >
       <table border = 2 style = "margin-left:auto; margin-right:auto;">
         <th>번호</th>
         <th>날짜</th>
         <th>내용</th>
-      {% for i in range(imagelen) %}      
+      {% for i in range(get_image_all|length) %}      
         <tr>
-          <td><button type="submit" name = "num">{{get_subid_all[i]}}</button></td>
+          <td><button type="submit" name = "num" >{{get_subid_all[i]}}</button></td>
           <td>{{get_date_all[i]}}</td>
           <td>{{get_content_all[i]}}</td>
         </tr>
-      {% endfor %}
-      <input type="text" name = "num" >
-      <button type = "submit" >제출</button>
+      {% endfor %}<br/><br/>
       </table>
-    </form>
-  
+      <input type="text" name = "num" >
+      <button type = "submit" >제출</button><br/>
+
+
       <br/><br/><h5> 사진 출력</h5>
-      {% if 'seeall' not in session %}
-      ???
-        {{get_content_all[num]}}
+      <table border = 2 style = "margin-left:auto; margin-right:auto;">
+        <th>번호</th>
+        <th>사진</th>
+
+      {% if 'seeall' not in session %}  
+      <tr><td>{{get_content_all[num]}} </td>            <!-- ㅇ이놈이랑 -->
       <div class = "imageFlex1">
         <p>
-          <img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[num]}}">
+            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[num]}}"></td></tr>             <!-- ㅇ이놈이랑 이놈 문자열 바뀐 것. -->
         </p>
       </div>
       {% else %}
-        {% for i in range(imagelen) %}      
-          {{get_content_all[i]}}
+        {% for i in range(get_image_all|length) %}      
+
+        <tr><td>{{get_content_all[i]}}</td>
           <div class = "imageFlex1">
           <p>
-            <img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i]}}">
+            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i]}}"></td></tr>
           </p>
           </div>
         {% endfor %}
       {% endif %}
-
+        </table>
+    </form>
     </div>
     </div>
 

@@ -190,14 +190,13 @@ def picture():
     get_content = 0
     num = 0
     num = selected_num
-    if session['seeall']:
-        for i in range(len(image)):
-            get_subid_all.append(image[i][0])       #subid
-            get_date_all.append(image[i][1])        #date
-            get_image_all.append(image[i][2])       #pic
-            get_content_all.append(image[i][3])     #content
-            get_image_all[i] = get_image_all[i].decode("UTF-8") 
-
+    #if 'seeall' in session:
+    for i in range(len(image)):
+        get_subid_all.append(image[i][0])       #subid
+        get_date_all.append(image[i][1])        #date
+        get_image_all.append(image[i][2])       #pic
+        get_content_all.append(image[i][3])     #content
+        get_image_all[i] = get_image_all[i].decode("UTF-8")
     cursor.close()
     conn.close()
     return render_template('/picture.html',seeall = seeall, num = num, get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
@@ -211,9 +210,10 @@ def seeall():
 def select():
     session.pop('seeall',None)
     global selected_num
-    selected_num = request.args['num']
+    selected_num = int(request.args['num'])
+    selected_num = selected_num - 1
     print("템프:",selected_num)
-
-    return redirect('/picture')
+    
+    return redirect(url_for('picture', num = selected_num))
 
 app.run(debug=True,host="127.0.0.1",port=5000)
