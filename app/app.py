@@ -1,6 +1,6 @@
 import os.path
 from flaskext.mysql import MySQL
-from flask import request, Flask,flash, session, render_template, redirect, url_for
+from flask import request, Flask,flash, session, render_template, redirect, url_for, make_response
 import base64
 from io import BytesIO
 from PIL import Image
@@ -190,10 +190,11 @@ def picture():
     get_date_all = []
     get_image = 0
     get_content = 0
-    print(image_num)
-    print(n)
-    session['seeall'] = 1
-    print(session['seeall'])
+    print('image_num = ',image_num)
+    print('n = ', n)
+    temp = request.cookies.get('select_num')
+    print('select_num_cookies = ', temp)
+    print('session seeall = ', session['seeall'])
     if session['seeall']:
         for i in range(len(image)):
             get_subid_all.append(image[i][0])       #subid
@@ -202,24 +203,28 @@ def picture():
             get_content_all.append(image[i][3])     #content
             get_image_all[i] = get_image_all[i].decode("UTF-8") 
 
-
     cursor.close()
     conn.close()
-    return render_template('/picture.html',get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
+    return render_template('/picture.html',seeall = seeall, get_image=get_image, get_content = get_content, get_image_all = get_image_all, get_content_all = get_content_all, imagelen= len(get_content_all), get_date_all = get_date_all, get_subid_all = get_subid_all)
 
-@app.route('/picture/seeall',methods=['POST','GET']) #프로필탭 이전사진으로`
+@app.route('/picture/seeall',methods=['POST']) #프로필탭 이전사진으로`
 def seeall():
     session['seeall'] = 1
-    seeall = 1
-    return redirect('/picture', seeall = seeall)
+    seeall = '전체보기'
+    print('seeall2 = ',seeall)
+    return redirect('/picture')
 
 @app.route('/picture/select_id',methods=['POST','GET']) #프로필탭 이전사진으로`
 def select():
-    session.pop('seeall',None)
-    if request.method == 'POST':
-        temp = request.form['num']
-        print("???:",temp)
-    return render_template('/picture.html', select_id = temp)
+    session['seeall'] = 0
+    resp = make_response()
+
+    temp = request.form['num']
+
+    print("템프 씨팔:",temp)
+    
+    resp.set_cookie('select_num',temp)
+    return redirect('/picture')
 
 @app.route('/picture/prev',methods=['GET','POST']) #프로필탭 이전사진으로`
 def prev():

@@ -12,8 +12,8 @@
         <br/><br/><h1> Picture </h1>
         <br/><br/><h3> 달력</br></h3>
         <form method="POST" action="/picture/seeall" style="text-align:center;">        
-        <button type="submit" >전체 사진 보기</button>
-        seeall{{seeall}}
+        <a href="http://127.0.0.1:5000/picture/seeall"><button type="submit" >전체 사진 보기</button></a>
+        seeall{{session['seeall']}}
         <br/><br/>
       </form>
     </form>
@@ -35,7 +35,7 @@
     </form>
   
       <br/><br/><h5> 사진 출력</h5>
-      {% if session['seeall'] == None %}
+      {% if 'seeall' not in session %}
         {{get_content_all[select_id]}}
       <div class = "imageFlex1">
         <p>
