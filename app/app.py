@@ -207,6 +207,7 @@ def seeall():
     return redirect('/picture')
 
 @app.route('/picture/select_id',methods=['POST','GET']) #프로필탭 이전사진으로`
+@app.route('/num=<int:num>') #프로필탭 이전사진으로`
 def select():
     session.pop('seeall',None)
     global selected_num

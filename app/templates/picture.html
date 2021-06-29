@@ -23,15 +23,15 @@
         <th>번호</th>
         <th>날짜</th>
         <th>내용</th>
-      {% for i in range(get_image_all|length) %}      
+      {% for i in range(get_image_all|length) %}
         <tr>
-          <td><button type="submit" name = "num" >{{get_subid_all[i]}}</button></td>
+          <td><a href = "http://127.0.0.1:5000/picture/select_id&num={{i}}">{{get_subid_all[i]}}</a></td>
           <td>{{get_date_all[i]}}</td>
           <td>{{get_content_all[i]}}</td>
         </tr>
       {% endfor %}<br/><br/>
       </table>
-      <input type="text" name = "num" >
+      <input type="number" name = "num" >
       <button type = "submit" >제출</button><br/>
 
 
