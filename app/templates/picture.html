@@ -25,15 +25,12 @@
         <th>내용</th>
       {% for i in range(get_image_all|length) %}
         <tr>
-          <td><a href = "http://127.0.0.1:5000/picture/select_id&num={{i}}">{{get_subid_all[i]}}</a></td>
+          <td><a href = "http://127.0.0.1:5000/picture/select_id?num={{i}}">{{get_subid_all[i]}}</a></td>
           <td>{{get_date_all[i]}}</td>
           <td>{{get_content_all[i]}}</td>
         </tr>
       {% endfor %}<br/><br/>
       </table>
-      <input type="number" name = "num" >
-      <button type = "submit" >제출</button><br/>
-
 
       <br/><br/><h5> 사진 출력</h5>
       <table border = 2 style = "margin-left:auto; margin-right:auto;">
