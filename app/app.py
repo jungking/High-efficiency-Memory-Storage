@@ -217,4 +217,10 @@ def select():
     
     return redirect(url_for('picture', num = selected_num))
 
+@app.route('/ai',methods=['POST'])
+def ai():
+    return 1
+
+
+
 app.run(debug=True,host="127.0.0.1",port=5000)
