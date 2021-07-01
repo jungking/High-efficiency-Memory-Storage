@@ -217,9 +217,10 @@ def select():
     
     return redirect(url_for('picture', num = selected_num))
 
-@app.route('/ai',methods=['POST'])
+@app.route('/ai',methods=['POST','GET'])
 def ai():
     show_image()
+    print("히히")
     return render_template('/ai.html')
 
 
