@@ -225,9 +225,9 @@ def ai():
     image = show_image()
     print(image)
     print("히히")
-    show_img = cv2.imshow("Faces found", image)
-
-    return render_template('/ai.html', img=show_img)
+    cv2.imshow("Faces found", image)
+    
+    return render_template('/ai.html', img=cv2.imshow('',image))
 
 
 
