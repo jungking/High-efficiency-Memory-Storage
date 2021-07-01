@@ -5,7 +5,7 @@ import base64
 from io import BytesIO
 from PIL import Image
 import datetime
-
+from .ai import show_image
 from pymysql import NULL
 
 mysql = MySQL()
@@ -219,7 +219,8 @@ def select():
 
 @app.route('/ai',methods=['POST'])
 def ai():
-    return 1
+    show_image()
+    return render_template('/ai.html')
 
 
 
