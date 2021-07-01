@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 def show_image():
     faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
     image = cv2.imread("image2.jpg")                #이미지 불러오기 해야함.
+    print('img1.shape:', image)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     faces = faceCascade.detectMultiScale(gray,
@@ -19,6 +20,8 @@ def show_image():
     cv2.destroyAllWindows()
     cv2.waitKey(1)
 
-    return plt.imshow(image)
+    #return cv2.imshow("Faces found", image)
+
+
 
 # 멀리 있는 얼굴 인식률 떨어짐 거의 20%..
