@@ -7,6 +7,9 @@ from PIL import Image
 import datetime
 from .ai import show_image
 from pymysql import NULL
+import cv2
+import matplotlib.pyplot as plt
+
 
 mysql = MySQL()
 app = Flask(__name__)
