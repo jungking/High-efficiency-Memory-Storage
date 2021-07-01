@@ -222,9 +222,12 @@ def select():
 
 @app.route('/ai',methods=['POST','GET'])
 def ai():
-    show_image()
+    image = show_image()
+    print(image)
     print("히히")
-    return render_template('/ai.html')
+    show_img = cv2.imshow("Faces found", image)
+
+    return render_template('/ai.html', img=show_img)
 
 
 
