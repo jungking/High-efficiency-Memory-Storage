@@ -8,8 +8,6 @@ import datetime
 from .ai import show_image
 from pymysql import NULL
 import cv2
-import matplotlib.pyplot as plt
-
 
 mysql = MySQL()
 app = Flask(__name__)
@@ -223,12 +221,7 @@ def select():
 @app.route('/ai',methods=['POST','GET'])
 def ai():
     image = show_image()
-    print(image)
-    print("히히")
-    cv2.imshow("Faces found", image)
-    
-    return render_template('/ai.html', img=cv2.imshow('',image))
-
-
+    print("???????=", image)
+    return render_template('/ai.html', img=image)
 
 app.run(debug=True,host="127.0.0.1",port=5000)
