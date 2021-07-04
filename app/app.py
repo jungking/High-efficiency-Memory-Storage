@@ -220,6 +220,7 @@ def select():
 
 @app.route('/ai',methods=['POST','GET'])
 def ai():
+    input_image = 0
     image = show_image()
     image = image.decode("UTF-8")
     #print("???????=", image)
