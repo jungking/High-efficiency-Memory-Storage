@@ -143,7 +143,7 @@ def datecal():
 
         file = file.read()
         image = show_image(file).decode("UTF=8")
-        print(image)
+        #print(image)
 
         #buffer = BytesIO()
         #img = image

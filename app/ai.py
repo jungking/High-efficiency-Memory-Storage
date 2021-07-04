@@ -22,10 +22,10 @@ def show_image(image):
     print ("Found {0} faces!".format(len(faces)))
     for (x, y, w, h) in faces:
         cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
-    
-    #b, g, r = cv2.split(image)
-    #image = cv2.merge([r,g,b]) 
-    image = cv2.resize(image, dsize=(0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
+    b, g, r = cv2.split(image)
+    image = cv2.merge([r,g,b]) 
+    #image = cv2.resize(image, dsize=(0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
+    image = cv2.resize(image, dsize=(400, 400), interpolation=cv2.INTER_LINEAR)
     #cv2.imshow("Faces found", image)
     cv2.waitKey(0)
     #cv2.destroyAllWindows()
