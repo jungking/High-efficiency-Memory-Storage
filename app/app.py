@@ -5,9 +5,12 @@ import base64
 from io import BytesIO
 from PIL import Image
 import datetime
+
+from werkzeug.datastructures import FileStorage
 from .ai import show_image
 from pymysql import NULL
 import cv2
+import matplotlib.pyplot as plt
 
 mysql = MySQL()
 app = Flask(__name__)
@@ -138,10 +141,16 @@ def datecal():
         user_id = session['userid']
         content = request.form['content']
 
-        buffer = BytesIO()
-        img = Image.open(file)
-        img.save(buffer, format="png")
-        img_str = base64.b64encode(buffer.getvalue())
+        file = file.read()
+        image = show_image(file).decode("UTF=8")
+        print(image)
+
+        #buffer = BytesIO()
+        #img = image
+        #img.save(buffer, format="png")
+        #img_str = base64.b64encode(buffer.getvalue())
+        #img_str = base64.b64encode(image)
+        img_str = image
         conn = mysql.connect()
         cursor = conn.cursor()
 
@@ -153,7 +162,7 @@ def datecal():
             sub_id = 1
         else:
             sub_id = sub_id[0]
-            sub_id = sub_id + 1
+            sub_id = sub_id + 1         # 위 코드에 +1 하고 삭제
 
         sql = "INSERT INTO picture_table(sub_id,date,pic,userid,content) VALUES (%s,%s,%s,%s,%s)"
         cursor.execute(sql,(sub_id,date,img_str,user_id,content))
@@ -163,8 +172,8 @@ def datecal():
             conn.commit()
             flash("업로드 성공")
             msg = "업로드 성공"
-            return render_template('/upload.html', msg = msg)
-        else:
+            return render_template('/upload.html', img = image ,msg = msg)
+        else:                                       
             conn.rollback()
             flash("업로드 실패")
             error = "업로드 실패"
@@ -182,7 +191,6 @@ def picture():
     cursor.execute(sql,value)
     image = cursor.fetchall()
     global selected_num
-
     get_image_all = []
     get_content_all = []
     get_subid_all = []
@@ -215,10 +223,10 @@ def select():
     selected_num = int(request.args['num'])
     return redirect(url_for('picture', num = selected_num))
 
-@app.route('/ai',methods=['POST','GET'])
+""" @app.route('/ai',methods=['POST','GET'])
 def ai():
-    input_image = 0
-    image = show_image()
+    input_image = request.files['file']
+    image = show_image(input_image)
     image = image.decode("UTF-8")
     #print("???????=", image)
 
@@ -229,5 +237,5 @@ def ai():
     #base64_img = base64.b64encode(rawBytes.read())
 
     return render_template('/ai.html', img=image)
-
+ """
 app.run(debug=True,host="127.0.0.1",port=5000)

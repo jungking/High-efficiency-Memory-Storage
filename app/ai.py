@@ -5,10 +5,11 @@ from PIL import Image
 from io import BytesIO
 import base64
 
-def show_image():
+def show_image(image):
     faceCascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    image = 'C:/Users/immen/바탕 화면/github/python_web/app/image.jpg'                 #이미지 불러오기 해야함.
-    ff = np.fromfile(image, np.uint8)               #경로 한글 있으면 에러
+    #image = 'C:/Users/immen/바탕 화면/github/python_web/app/image.jpg'                 #이미지 불러오기 해야함.
+    ff = np.frombuffer(image, np.uint8)               #경로 한글 있으면 에러
+    #image = image.astype('uint8')
     image = cv2.imdecode(ff, cv2.IMREAD_UNCHANGED)
     #cv2.imshow("1", image)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -22,8 +23,8 @@ def show_image():
     for (x, y, w, h) in faces:
         cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
     
-    b, g, r = cv2.split(image)
-    image = cv2.merge([r,g,b]) 
+    #b, g, r = cv2.split(image)
+    #image = cv2.merge([r,g,b]) 
     image = cv2.resize(image, dsize=(0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
     #cv2.imshow("Faces found", image)
     cv2.waitKey(0)
