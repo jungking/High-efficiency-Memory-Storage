@@ -37,7 +37,8 @@
         <h2>3. 내용 입력 (최대 200자)</h2>
         <input type = "text" name="content"></input>
         <br/><br/>
-        <button type="submit">사진 등록</button>
+        <button type="submit">사진 등록 하기</button>
+        <button type="submit" onclick = "location.href = '/ai'">사진 얼굴 인식 하기</button>
         <div class="error">{{error}}</div>
 
         {% with messages = get_flashed_messages() %}

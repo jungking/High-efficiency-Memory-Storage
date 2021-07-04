@@ -213,9 +213,6 @@ def select():
     session.pop('seeall',None)
     global selected_num
     selected_num = int(request.args['num'])
-    selected_num = selected_num - 1
-    print("템프:",selected_num)
-    
     return redirect(url_for('picture', num = selected_num))
 
 @app.route('/ai',methods=['POST','GET'])
