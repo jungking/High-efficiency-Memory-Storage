@@ -1,16 +1,9 @@
-import os.path
 from flaskext.mysql import MySQL
 from flask import request, Flask,flash, session, render_template, redirect, url_for, make_response
-import base64
-from io import BytesIO
-from PIL import Image
 import datetime
-
-from werkzeug.datastructures import FileStorage
 from .ai import show_image
 from pymysql import NULL
-import cv2
-import matplotlib.pyplot as plt
+import random
 
 mysql = MySQL()
 app = Flask(__name__)
@@ -28,16 +21,26 @@ mysql.init_app(app)
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
-    testData = 'testData array'
+    conn = mysql.connect()
+    cursor = conn.cursor()
+    user_id = session['userid']
     
-    """if not session.get('logflag'):
-        return render_template('main/index.html', testDataHtml = testData)
-    else:
-        if request.method == 'POST':
-            userid = getname(request.form['userid'])
-            return render_template('main/index.html', data = getfollowedby(userid))     """
-    
-    return render_template('main/index.html', testDataHtml = testData)
+    sql = "SELECT pic,sub_id FROM picture_table WHERE userid = %s"        
+    cursor.execute(sql,(user_id))
+    conn = cursor.fetchall()
+    get_sub_id=[]
+    get_img = []
+    for i in range(len(conn)):
+        get_img.append(conn[i][0])
+        get_sub_id.append(conn[i][1])       
+        get_img[i] = get_img[i].decode("UTF-8")
+        
+    maximum = len(get_sub_id)
+    index = random.randint(1,maximum)
+    random_image = get_img[index]
+    newest_image = get_img[maximum-1]
+
+    return render_template('main/index.html', random_image = random_image, newest_image = newest_image)
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
