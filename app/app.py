@@ -223,19 +223,4 @@ def select():
     selected_num = int(request.args['num'])
     return redirect(url_for('picture', num = selected_num))
 
-""" @app.route('/ai',methods=['POST','GET'])
-def ai():
-    input_image = request.files['file']
-    image = show_image(input_image)
-    image = image.decode("UTF-8")
-    #print("???????=", image)
-
-    #rawBytes = BytesIO()
-    #img_buffer = Image.fromarray(image.astype('uint8'))
-    #img_buffer.save(rawBytes, 'PNG')
-    #rawBytes.seek(0)
-    #base64_img = base64.b64encode(rawBytes.read())
-
-    return render_template('/ai.html', img=image)
- """
 app.run(debug=True,host="127.0.0.1",port=5000)
