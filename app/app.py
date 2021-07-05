@@ -21,9 +21,10 @@ mysql.init_app(app)
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
+    user_id = session['userid']
     conn = mysql.connect()
     cursor = conn.cursor()
-    user_id = session['userid']
+    
     
     sql = "SELECT pic,sub_id FROM picture_table WHERE userid = %s"        
     cursor.execute(sql,(user_id))
