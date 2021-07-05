@@ -21,27 +21,29 @@ mysql.init_app(app)
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
-    user_id = session['userid']
-    conn = mysql.connect()
-    cursor = conn.cursor()
+    if request.method == 'GET':
+        return render_template("/main/index.html")
+    else:
+        user_id = session['userid']
+        conn = mysql.connect()
+        cursor = conn.cursor()
     
-    
-    sql = "SELECT pic,sub_id FROM picture_table WHERE userid = %s"        
-    cursor.execute(sql,(user_id))
-    conn = cursor.fetchall()
-    get_sub_id=[]
-    get_img = []
-    for i in range(len(conn)):
-        get_img.append(conn[i][0])
-        get_sub_id.append(conn[i][1])       
-        get_img[i] = get_img[i].decode("UTF-8")
+        sql = "SELECT pic,sub_id FROM picture_table WHERE userid = %s"        
+        cursor.execute(sql,(user_id))
+        conn = cursor.fetchall()
+        get_sub_id=[]
+        get_img = []
+        for i in range(len(conn)):
+            get_img.append(conn[i][0])
+            get_sub_id.append(conn[i][1])       
+            get_img[i] = get_img[i].decode("UTF-8")
         
-    maximum = len(get_sub_id)
-    index = random.randint(1,maximum)
-    random_image = get_img[index]
-    newest_image = get_img[maximum-1]
+        maximum = len(get_sub_id)
+        index = random.randint(1,maximum)
+        random_image = get_img[index]
+        newest_image = get_img[maximum-1]
 
-    return render_template('main/index.html', random_image = random_image, newest_image = newest_image)
+        return render_template('main/index.html', random_image = random_image, newest_image = newest_image)
 
 @app.route('/signin', methods=['GET','POST'])
 def signin():
