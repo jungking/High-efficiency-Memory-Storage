@@ -22,8 +22,8 @@ mysql.init_app(app)
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
     if request.method == 'GET':
-        return render_template("/main/index.html")
-    else:
+        #return render_template("/main/index.html")
+    #else:
         user_id = session['userid']
         conn = mysql.connect()
         cursor = conn.cursor()
