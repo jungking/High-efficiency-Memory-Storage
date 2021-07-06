@@ -9,6 +9,9 @@
      <div style="text-align:center;">
         <br/><br/><br/><h1>{{session['userid']}}'s Profile</h1>
         <br/><br/><br/><h2>가입 날짜  :  {{timedata}}</h2>
+        <br/><br/><br/><h2>전체 이용자가 올린 사진 {{count_all_picture}}장</h2>
+        <br/><h2>{{session['userid']}}님은 {{count_user_picture}}장 올리셨군요!</h2>
+        <br/><h2>{{percent}}  %에 해당하네요!</h2>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
