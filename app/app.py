@@ -74,7 +74,6 @@ def signin():
         if data:
             session['logflag'] = 'logged in'
             session['userid'] = userid
-            print(session['logflag'])
             print(session['userid'],"으로 로그인 성공")
             return redirect('/')
         else:
