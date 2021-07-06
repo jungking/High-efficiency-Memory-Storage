@@ -37,27 +37,32 @@
       <br/><br/><h5> 사진 출력</h5>
       <table border = 2 style = "margin-left:auto; margin-right:auto;">
         <th>번호</th>
+        <th>내용</th>
         <th>사진</th>
-
       {% if 'seeall' not in session %}  
-      <tr><td>{{get_content_all[num]}} </td>            <!-- ㅇ이놈이랑 -->
+      <tr>
+        <td>{{get_subid_all[num]}}</td>
+        <td>{{get_content_all[num]}} </td>            <!-- ㅇ이놈이랑 -->
       <div class = "imageFlex1">
         <p>
-            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[num]}}"></td></tr>             <!-- ㅇ이놈이랑 이놈 문자열 바뀐 것. -->
+            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[num]}}"></td>             <!-- ㅇ이놈이랑 이놈 문자열 바뀐 것. -->
         </p>
-        <button type = button, onclick = "location.href = '#'">ai</button>
       </div>
+    </tr>
       {% else %}
-        {% for i in range(get_image_all|length) %}      
-
-        <tr><td>{{get_content_all[i]}}</td>
+        {% for i in range(get_image_all|length) %}
+        <tr>
+        <td>{{get_subid_all[i]}}</td>
+        <td>{{get_content_all[i]}}</td>
           <div class = "imageFlex1">
           <p>
-            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i-1]}}"></td></tr>
+            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i-1]}}"></td>
           </p>
           </div>
+        </tr>
         {% endfor %}
       {% endif %}
+    
         </table>
     </form>
     </div>
