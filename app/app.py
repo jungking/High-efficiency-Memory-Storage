@@ -232,4 +232,23 @@ def select():
     selected_num = int(request.args['num'])
     return redirect(url_for('picture', num = selected_num))
 
+@app.route('/picture/delete',methods=['POST','GET']) #프로필탭 이전사진으로`
+@app.route('/num=<int:num>')
+def delete():
+    selected_id = int(request.args['num'])
+    user_id = session['userid']
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
+    sql = "DELETE FROM picture_table WHERE sub_id = %s AND userid = %s"        
+    value = (selected_id, user_id)
+    cursor.execute(sql,value)
+
+    conn.commit()
+    conn.close()
+
+    print(selected_id, "삭제 완료")
+    #subid 삭제
+    return redirect('/picture')
+
 app.run(debug=True,host="127.0.0.1",port=5000)
