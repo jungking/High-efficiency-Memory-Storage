@@ -21,9 +21,6 @@ mysql.init_app(app)
 
 @app.route('/',methods=['GET','POST']) # /main 으로하면 127.0.0.1:3000/main으로 가야 입력 됨.
 def index():
-    #if request.method == 'GET':
-        #return render_template("/main/index.html")
-    #else:
     if 'userid' not in session:
         print('로그인 하세영')
         return render_template('main/index.html')
@@ -32,6 +29,12 @@ def index():
         conn = mysql.connect()
         cursor = conn.cursor()
     
+        sql = "SELECT COUNT(*) FROM picture_table WHERE userid = %s"        #신규가입했는데 에러
+        cursor.execute(sql,(user_id))
+        conn = cursor.fetchone()
+        if conn[0] == 0:                                    
+            return render_template('main/index.html')
+
         sql = "SELECT pic,sub_id FROM picture_table WHERE userid = %s"        
         cursor.execute(sql,(user_id))
         conn = cursor.fetchall()
@@ -44,7 +47,7 @@ def index():
         
         maximum = len(get_sub_id)
         index = random.randint(1,maximum)
-        random_image = get_img[index]
+        random_image = get_img[index-1]
         newest_image = get_img[maximum-1]
 
         return render_template('main/index.html', random_image = random_image, newest_image = newest_image)
@@ -134,9 +137,15 @@ def profile():
     cursor = conn.cursor()
     userid = session['userid']
     sql = "SELECT sub_date FROM user_table WHERE userid = %s"
-    value = (userid)
-    cursor.execute(sql,value)
+    cursor.execute(sql,(userid))
     timedata = cursor.fetchone()
+
+    sql = "SELECT COUNT(*) FROM picture_table "
+    cursor.execute(sql)
+    count_all_picture = cursor.fetchone()
+    print(count_all_picture)
+
+    
     print(timedata[0])
     return render_template('/profile.html',timedata = timedata[0])
 
