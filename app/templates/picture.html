@@ -14,7 +14,6 @@
         <form method="POST" style="text-align:center;">        <!-- action="/picture/seeall" -->
         <button type="button", onclick = "location.href = './picture/seeall'" >전체 사진 보기</button>
         <br/>seeall
-        {{session['seeall']}}
         <br/><br/>
       </form>
     </form>
@@ -56,7 +55,7 @@
         <td>{{get_content_all[i]}}</td>
           <div class = "imageFlex1">
           <p>
-            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i-1]}}"></td>
+            <td><img src="data:image/jpeg;charset=utf-8;base64,{{get_image_all[i]}}"></td>
           </p>
           </div>
         </tr>
