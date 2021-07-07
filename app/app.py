@@ -148,7 +148,7 @@ def profile():
     sql = "SELECT COUNT(*) FROM picture_table WHERE userid = %s"
     cursor.execute(sql,(userid))
     count_user_picture = cursor.fetchone()
-    if count_user_picture == 0:
+    if count_user_picture[0] == 0:
         return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0)    
     else:
         percent = (count_user_picture[0] / count_all_picture[0])*100
