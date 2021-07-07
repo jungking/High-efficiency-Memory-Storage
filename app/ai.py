@@ -15,8 +15,9 @@ def show_image(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     #cv2.imshow("2", gray)
     faces = faceCascade.detectMultiScale(gray,
-                                        scaleFactor= 1.1,      # 이미지 피라미드 스케일 factor
-                                        minNeighbors=5         # 인접 객체 최소 거리 픽셀
+                                        scaleFactor= 1.2,      # 이미지 피라미드 스케일 factor
+                                        minNeighbors=3,         # 인접 객체 최소 거리 픽셀
+                                        minSize = (20,20)
                                         )        
 
     print ("Found {0} faces!".format(len(faces)))
