@@ -9,10 +9,10 @@ import os
 mysql = MySQL()
 app = Flask(__name__)
 
-app.config['MYSQL_DATABASE_USER'] = 'us-cdbr-east-03.cleardb.com'
+app.config['MYSQL_DATABASE_USER'] = 'b82569f91335c3'
 app.config['MYSQL_DATABASE_PASSWORD'] = '14c535f1'
 app.config['MYSQL_DATABASE_DB'] = 'heroku_1cef3fce133039c'
-app.config['MYSQL_DATABASE_HOST'] = 'b82569f91335c3'
+app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-03.cleardb.com'
 app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'
 
 app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
