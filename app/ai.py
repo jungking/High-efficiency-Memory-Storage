@@ -27,7 +27,7 @@ def show_image(image):
     #image = cv2.resize(image, dsize=(0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
     image = cv2.resize(image, dsize=(400, 400), interpolation=cv2.INTER_LINEAR)
     #cv2.imshow("Faces found", image)
-    cv2.waitKey(0)
+    #cv2.waitKey(0)
     #cv2.destroyAllWindows()
 
     rawBytes = BytesIO()
