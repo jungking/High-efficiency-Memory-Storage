@@ -239,15 +239,15 @@ def seeall():
     session['seeall'] = 1
     return redirect('/picture')
 
-@app.route('/picture/select_id',methods=['POST','GET']) #프로필탭 이전사진으로`
-@app.route('/num=<int:num>') #프로필탭 이전사진으로`
+@app.route('/picture/select_id',methods=['POST','GET'])
+@app.route('/num=<int:num>')
 def select():
     session.pop('seeall',None)
     global selected_num
     selected_num = int(request.args['num'])
     return redirect(url_for('picture', num = selected_num))
 
-@app.route('/picture/delete',methods=['POST','GET']) #프로필탭 이전사진으로`
+@app.route('/picture/delete',methods=['POST','GET'])
 @app.route('/num=<int:num>')
 def delete():
     selected_id = int(request.args['num'])
