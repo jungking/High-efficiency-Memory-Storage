@@ -16,15 +16,13 @@ def show_image(image):
     #cv2.imshow("2", gray)
     faces = faceCascade.detectMultiScale(gray,
                                         scaleFactor= 1.3,      # 이미지 피라미드 스케일 factor
-                                        minNeighbors=3,         # 인접 객체 최소 거리 픽셀
-                                        minSize = (40,40)
+                                        minNeighbors=5,         # 인접 객체 최소 거리 픽셀
+                                        minSize = (20,20)
                                         )        
 
     print ("Found {0} faces!".format(len(faces)))
     for (x, y, w, h) in faces:
-        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
-    print(cv2.split(image))
-    print(len(cv2.split(image)))
+        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 3)
     if len(cv2.split(image))<=3:
         b, g, r = cv2.split(image)
         image = cv2.merge([r,g,b]) 
