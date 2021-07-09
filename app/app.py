@@ -170,8 +170,6 @@ def datecal():
         image, face_detect, face_list= show_image(file)
         image = image.decode("UTF=8")   # face detected image
         
-        print(face_detect)
-
         #buffer = BytesIO()
         #img = image
         #img.save(buffer, format="png")
@@ -198,7 +196,7 @@ def datecal():
             conn.commit()
             flash("업로드 성공")
             msg = "업로드 성공"
-            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect)
+            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list)
         else:                                     
             conn.rollback()
             flash("업로드 실패")

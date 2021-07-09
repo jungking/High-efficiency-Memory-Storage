@@ -8,7 +8,7 @@
        <form method="GET,POST" action = "upload/face" style="text-align:center;">
           <img src = "data:image/jpeg;charset=utf-8;base64,{{img}}">
           {% for i in range(face_detect) %}
-            <area shape="rect" coords="182,46,364,228" alt = "face{{i}}" href = "#">
+            <area shape="rect" coords="{{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}" alt = "face{{i}}" href = "#">
             <input type = text>
           {% endfor %}
           
