@@ -22,15 +22,13 @@ def show_image(image):
                                         )        
 
     print ("Found {0} faces!".format(len(faces)))
-    facelist=[[0,0,0,0]*len(faces)]
-    print(facelist)
+    facelist=[[0,0,0,0]]*len(faces)
+    facelist = faces
     for (x, y, w, h) in faces:
-        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 3)
-        for i in range(len(faces)):
-            facelist[i][0] = x
-            facelist[i][1] = y
-            facelist[i][2] = w
-            facelist[i][3] = h
+        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        print("x = ",x)
+        print("faces = ",faces)
+        
     print(facelist)
     if len(cv2.split(image))<=3:
         b, g, r = cv2.split(image)
@@ -47,6 +45,6 @@ def show_image(image):
     rawBytes.seek(0)
     base64_img = base64.b64encode(rawBytes.read())
     facelen = len(faces)
-    return base64_img,facelen,facelist
+    return base64_img,facelen,faces
 
 # 멀리 있는 얼굴 인식률 떨어짐 거의 20%..

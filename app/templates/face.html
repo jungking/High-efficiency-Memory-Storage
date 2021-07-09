@@ -6,12 +6,16 @@
   <body>
    {% include 'main/nav.html'%}
        <form method="GET,POST" action = "upload/face" style="text-align:center;">
-          <img src = "data:image/jpeg;charset=utf-8;base64,{{img}}">
-          {% for i in range(face_detect) %}
-            <area shape="rect" coords="{{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}" alt = "face{{i}}" href = "#">
-            <input type = text>
-          {% endfor %}
-          
+          <img src = "data:image/jpeg;charset=utf-8;base64,{{img}}" usemap = "#face">
+          <map name="face" id="face">
+            {% for i in range(face_detect) %}
+            <br/>
+              <area shape="rect" coords="{{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}" alt = "face{{i}}" href = "./face1">
+              {{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}
+              <input type = text>
+            {% endfor %}
+          </map>
+          <br/>
           <button type="button", onclick = "location.href = './upload'" >사진 업로드</button>
 
      </form>

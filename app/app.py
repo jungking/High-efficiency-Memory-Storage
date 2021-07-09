@@ -196,7 +196,7 @@ def datecal():
             conn.commit()
             flash("업로드 성공")
             msg = "업로드 성공"
-            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list)
+            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list.tolist())
         else:                                     
             conn.rollback()
             flash("업로드 실패")
