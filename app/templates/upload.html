@@ -37,10 +37,8 @@
         <h2>3. 내용 입력 (최대 200자)</h2>
         <input type = "text" name="content"></input>
         <br/><br/>
-        <button type="submit" name = ''>사진 등록 하기</button>
-        
-        <form method="POST" action = "picture/ai" >
-          <button type="submit" name = "">사진 얼굴 인식 하기</button>
+        <form method="POST" >
+          <button type="submit" name = "" onclick = "location.href = './face'">사진 얼굴 인식 하기</button>
         </form>
         <div class="error">{{error}}</div>
 

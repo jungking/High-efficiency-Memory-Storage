@@ -9,10 +9,17 @@ import os
 mysql = MySQL()
 app = Flask(__name__)
 
-app.config['MYSQL_DATABASE_USER'] = 'b82569f91335c3'
-app.config['MYSQL_DATABASE_PASSWORD'] = '14c535f1'
+""" app.config['MYSQL_DATABASE_USER'] = 'b82569f91335c3'
+app.config['MYSQL_DATABASE_PASSWORD'] = '14c535f1'                  #heroku..
 app.config['MYSQL_DATABASE_DB'] = 'heroku_1cef3fce133039c'
-app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-03.cleardb.com'
+app.config['MYSQL_DATABASE_HOST'] = 'us-cdbr-east-03.cleardb.com' """
+
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'kh12241224'   
+app.config['MYSQL_DATABASE_DB'] = 'flask_db'
+app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
+
+
 app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'
 
 app.config['SECRET_KEY']='asdfasdfasdfqwerty' #해시값은 임의로 적음
@@ -167,10 +174,15 @@ def datecal():
 
         file = file.read()
         face_list=[]
+        global face_detect
         image, face_detect, face_list= show_image(file)
         image = image.decode("UTF=8")   # face detected image
         face_list = face_list.tolist()
-
+        print(face_list)
+        for i in range(face_detect):
+            face_list[i][2] = face_list[i][0] + face_list[i][2]
+            face_list[i][3] = face_list[i][1] + face_list[i][3]
+        print(face_list)
         img_str = image
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -178,7 +190,7 @@ def datecal():
         sql = "SELECT MAX(sub_id) FROM picture_table WHERE userid = %s"
         cursor.execute(sql,(user_id))
         sub_id = cursor.fetchone()
-        
+
         if None in sub_id :
             sub_id = 1
         else:
@@ -189,10 +201,13 @@ def datecal():
         data = cursor.fetchall()
 
         if not data:
-            conn.commit()
-            flash("업로드 성공")
             msg = "업로드 성공"
+            conn.commit()
             return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list)
+
+            flash("업로드 성공")
+            
+            
         else:                                     
             conn.rollback()
             flash("업로드 실패")
@@ -201,9 +216,15 @@ def datecal():
 
 @app.route('/upload/face', methods = ['GET', 'POST']) #업로드 창 들어가기
 def face():
-
+    face = []
+    req = request.form['num_id']
+    print(req)
+    #for i in range(face_detect):
+     #   req = request.args.get('face'+ str(i))
+      #  print(req)
+       # face.append(req)
+    #print('face????????',face)
     return  render_template('/upload.html')
-
 
 @app.route('/picture', methods = ['GET','POST']) #사진 창 들어가기
 def picture():
@@ -268,5 +289,5 @@ def delete():
     #subid 삭제
     return redirect('/picture')
 
-app.run(debug=True,host="0.0.0.0",port=int(os.environ.get("PORT",5000)))
+app.run(debug=True,host="127.0.0.1",port=int(os.environ.get("PORT",5000)))
 #app.run(debug=True)
