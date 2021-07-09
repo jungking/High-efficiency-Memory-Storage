@@ -25,9 +25,7 @@ def show_image(image):
     facelist=[[0,0,0,0]]*len(faces)
     for (x, y, w, h) in faces:
         cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        print("x = ",x)
-        print("faces = ",faces)
-        
+       
     if len(cv2.split(image))<=3:
         b, g, r = cv2.split(image)
         image = cv2.merge([r,g,b]) 

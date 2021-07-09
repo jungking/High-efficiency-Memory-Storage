@@ -170,11 +170,7 @@ def datecal():
         image, face_detect, face_list= show_image(file)
         image = image.decode("UTF=8")   # face detected image
         face_list = face_list.tolist()
-        #buffer = BytesIO()
-        #img = image
-        #img.save(buffer, format="png")
-        #img_str = base64.b64encode(buffer.getvalue())
-        #img_str = base64.b64encode(image)
+
         img_str = image
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -272,5 +268,5 @@ def delete():
     #subid 삭제
     return redirect('/picture')
 
-app.run(debug=True,host="127.0.0.1",port=int(os.environ.get("PORT",5000)))
+app.run(debug=True,host="0.0.0.0",port=int(os.environ.get("PORT",5000)))
 #app.run(debug=True)
