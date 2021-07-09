@@ -166,8 +166,11 @@ def datecal():
         content = request.form['content']
 
         file = file.read()
-        image = show_image(file).decode("UTF=8")
-        #print(image)
+        face_list=[]
+        image, face_detect, face_list= show_image(file)
+        image = image.decode("UTF=8")   # face detected image
+        
+        print(face_detect)
 
         #buffer = BytesIO()
         #img = image
@@ -185,8 +188,7 @@ def datecal():
         if None in sub_id :
             sub_id = 1
         else:
-            sub_id = sub_id[0]
-            sub_id = sub_id + 1         # 위 코드에 +1 하고 삭제
+            sub_id = sub_id[0] + 1
 
         sql = "INSERT INTO picture_table(sub_id,date,pic,userid,content) VALUES (%s,%s,%s,%s,%s)"
         cursor.execute(sql,(sub_id,date,img_str,user_id,content))
@@ -196,12 +198,18 @@ def datecal():
             conn.commit()
             flash("업로드 성공")
             msg = "업로드 성공"
-            return render_template('/upload.html', img = image ,msg = msg)
-        else:                                       
+            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect)
+        else:                                     
             conn.rollback()
             flash("업로드 실패")
             error = "업로드 실패"
             return render_template('/upload.html',error = error)    
+
+@app.route('/upload/face', methods = ['GET', 'POST']) #업로드 창 들어가기
+def face():
+
+    return  render_template('/upload.html')
+
 
 @app.route('/picture', methods = ['GET','POST']) #사진 창 들어가기
 def picture():
