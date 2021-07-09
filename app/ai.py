@@ -31,12 +31,13 @@ def show_image(image):
     #cv2.imshow("Faces found", image)
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
-
+    
     rawBytes = BytesIO()
     img_buffer = Image.fromarray(image.astype('uint8'))
     img_buffer.save(rawBytes, 'PNG')
     rawBytes.seek(0)
     base64_img = base64.b64encode(rawBytes.read())
-    return base64_img
+    facelen = len(faces)
+    return base64_img,facelen
 
 # 멀리 있는 얼굴 인식률 떨어짐 거의 20%..
