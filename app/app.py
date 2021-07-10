@@ -177,12 +177,15 @@ def datecal():
         global face_detect
         image, face_detect, face_list= show_image(file)
         image = image.decode("UTF=8")   # face detected image
-        face_list = face_list.tolist()
+
+        face_list = face_list.tolist()              #array -> list
         print(face_list)
+
         for i in range(face_detect):
             face_list[i][2] = face_list[i][0] + face_list[i][2]
             face_list[i][3] = face_list[i][1] + face_list[i][3]
         print(face_list)
+
         img_str = image
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -200,15 +203,20 @@ def datecal():
         cursor.execute(sql,(sub_id,date,img_str,user_id,content))
         data = cursor.fetchall()
 
+        face = []
+        for i in range(face_detect):
+           req = request.args.get('face'+ str(i))
+           print(req)
+           face.append(req)
+        print('face????????',face)
+
         if not data:
-            msg = "업로드 성공"
             conn.commit()
+            msg = "업로드 성공"
+            flash("업로드 성공")
             return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list)
 
-            flash("업로드 성공")
-            
-            
-        else:                                     
+        else:
             conn.rollback()
             flash("업로드 실패")
             error = "업로드 실패"
@@ -216,15 +224,7 @@ def datecal():
 
 @app.route('/upload/face', methods = ['GET', 'POST']) #업로드 창 들어가기
 def face():
-    face = []
-    req = request.form['num_id']
-    print(req)
-    #for i in range(face_detect):
-     #   req = request.args.get('face'+ str(i))
-      #  print(req)
-       # face.append(req)
-    #print('face????????',face)
-    return  render_template('/upload.html')
+    return render_template('/upload.html')
 
 @app.route('/picture', methods = ['GET','POST']) #사진 창 들어가기
 def picture():
