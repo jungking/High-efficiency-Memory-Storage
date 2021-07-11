@@ -55,13 +55,14 @@ def show_image(image):
         print(face_list[i])
         crop_img_np.append(np.array(crop_img[i]))
 
-    rawBytes1 = BytesIO()
+    rawBytes = [None]*len(faces)
     img_crop = []
     for i in range(len(faces)):
+        rawBytes[i] = BytesIO()
         img_buffer = Image.fromarray(crop_img_np[i].astype('uint8'))
-        img_buffer.save(rawBytes1, 'PNG')
-        rawBytes1.seek(0)
-        img_crop.append(base64.b64encode(rawBytes1.read()))
+        img_buffer.save(rawBytes[i], 'PNG')
+        rawBytes[i].seek(0)
+        img_crop.append(base64.b64encode(rawBytes[i].read()))
         #img_crop.append(img_buffer.tobytes())
 
     return base64_img,facelen,face_list, img_crop
