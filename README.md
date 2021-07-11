@@ -5,9 +5,11 @@
 ### sign up, sign in -> upload picture, view picture
 
 
-upload -> ai url -> 저장
-
+    upload.html        face.html  
+이미지 업로드 -> 얼굴 인식 -> 인식된 얼굴에 이름 입력 -> 이미지 저장
 html 이미지 위에 <area shape="rect" coords="1, 2, 3, 4 " alt = "face1" href = "computer.html">, 좌표로 사각형 만들기 가능 - O
+
+내일은 db 할 것.
 
 upload로 사진 등록 시, 얼굴 인식이 되고, 새로운 얼굴이라면 이름 입력,
 이미 있는 얼굴이라면 혹시 이사람인가요? 라고 이름 선택 - X
