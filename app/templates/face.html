@@ -12,6 +12,7 @@
             <br/>
               <area shape="rect" coords="{{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}" alt = "face{{i}}" href = "./a"/>
               {{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}
+              <img src = "data:image/jpeg;charset=utf-8;base64,{{face_rec[i]}}">
               <input type = "text" name = "face{{i}}">
             {% endfor %}
           </map>

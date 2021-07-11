@@ -22,7 +22,7 @@ def show_image(image):
                                         )        
 
     print ("Found {0} faces!".format(len(faces)))
-    facelist=[[0,0,0,0]]*len(faces)
+
     for (x, y, w, h) in faces:
         cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
        
@@ -34,13 +34,36 @@ def show_image(image):
     #cv2.imshow("Faces found", image)
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
+    face_list = faces.tolist()
+    for i in range(len(faces)):
+        face_list[i][2] = face_list[i][0] + face_list[i][2]
+        face_list[i][3] = face_list[i][1] + face_list[i][3]
 
     rawBytes = BytesIO()
+    
     img_buffer = Image.fromarray(image.astype('uint8'))
     img_buffer.save(rawBytes, 'PNG')
     rawBytes.seek(0)
     base64_img = base64.b64encode(rawBytes.read())
     facelen = len(faces)
-    return base64_img,facelen,faces
+
+    crop_img = []
+    crop_img_np = []
+    for i in range(len(faces)):
+        img_buffer = Image.fromarray(image.astype('uint8'))
+        crop_img.append(img_buffer.crop((face_list[i][0],face_list[i][1],face_list[i][2],face_list[i][3])))
+        print(face_list[i])
+        crop_img_np.append(np.array(crop_img[i]))
+
+    rawBytes1 = BytesIO()
+    img_crop = []
+    for i in range(len(faces)):
+        img_buffer = Image.fromarray(crop_img_np[i].astype('uint8'))
+        img_buffer.save(rawBytes1, 'PNG')
+        rawBytes1.seek(0)
+        img_crop.append(base64.b64encode(rawBytes1.read()))
+        #img_crop.append(img_buffer.tobytes())
+
+    return base64_img,facelen,face_list, img_crop
 
 # 멀리 있는 얼굴 인식률 떨어짐 거의 20%..

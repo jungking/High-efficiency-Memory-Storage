@@ -5,6 +5,7 @@ from .ai import show_image
 from pymysql import NULL
 import random
 import os
+from PIL import Image
 
 mysql = MySQL()
 app = Flask(__name__)
@@ -169,22 +170,18 @@ def datecal():
     else:
         date = request.form['date']
         file = request.files['file']
+        #img = Image.open(file)
         user_id = session['userid']
         content = request.form['content']
 
         file = file.read()
         face_list=[]
         global face_detect
-        image, face_detect, face_list= show_image(file)
-        image = image.decode("UTF=8")   # face detected image
-
-        face_list = face_list.tolist()              #array -> list
-        print(face_list)
-
+        image, face_detect, face_list, face_rec= show_image(file)
+        image = image.decode("UTF=8")   # image
+        
         for i in range(face_detect):
-            face_list[i][2] = face_list[i][0] + face_list[i][2]
-            face_list[i][3] = face_list[i][1] + face_list[i][3]
-        print(face_list)
+            face_rec[i] = face_rec[i].decode("UTF=8")   # image
 
         img_str = image
         conn = mysql.connect()
@@ -207,7 +204,7 @@ def datecal():
             conn.commit()
             msg = "업로드 성공"
             flash("업로드 성공")
-            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list)
+            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list, face_rec = face_rec)
 
         else:
             conn.rollback()
