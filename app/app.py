@@ -203,13 +203,6 @@ def datecal():
         cursor.execute(sql,(sub_id,date,img_str,user_id,content))
         data = cursor.fetchall()
 
-        face = []
-        for i in range(face_detect):
-           req = request.args.get('face'+ str(i))
-           print(req)
-           face.append(req)
-        print('face????????',face)
-
         if not data:
             conn.commit()
             msg = "업로드 성공"
@@ -222,8 +215,24 @@ def datecal():
             error = "업로드 실패"
             return render_template('/upload.html',error = error)    
 
-@app.route('/upload/face', methods = ['GET', 'POST']) #업로드 창 들어가기
+@app.route('/upload/face', methods = ['GET','POST']) #업로드 창 들어가기
 def face():
+    #face0 = request.args.get("face0")
+    #face1 = request.args.get("face1")
+    #print(face0)
+    #print(face1)
+    face_rect = []
+    for i in range(face_detect):
+        req = request.args.get('face'+ str(i))
+        print(req)
+        face_rect.append(req)
+    print('face????????',face_rect)
+    return redirect('./check')
+
+@app.route('/upload/check', methods = ['GET','POST'])
+def check():
+    flash("업로드 성공")
+    print("업로드 성공")
     return render_template('/upload.html')
 
 @app.route('/picture', methods = ['GET','POST']) #사진 창 들어가기

@@ -5,7 +5,7 @@
   </head>
   <body>
    {% include 'main/nav.html'%}
-       <form method="GET,POST" action = ".upload/face" style="text-align:center;">
+       <form method="GET,POST" action = "upload/face" style="text-align:center;">
           <img src = "data:image/jpeg;charset=utf-8;base64,{{img}}" usemap = "#face">
           <map name="face" id="face">
             {% for i in range(face_detect) %}
@@ -16,8 +16,8 @@
             {% endfor %}
           </map>
           <br/>
-          <textarea type="text" name='num_id' value="iii" class="input-text"></textarea>
-          <button name = "face_count" type="button", onclick = "location.href = './upload/face'" >사진 업로드</button>
+          <!-- <textarea type="text" name='num_id' value="{{i}}" class="input-text"></textarea> -->
+          <button type="submit", onclick = "location.href = '/check'" >사진 업로드</button>
 
      </form>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
