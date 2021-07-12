@@ -173,19 +173,21 @@ def profile():
         
     tup_name = [[0]*1]*len(tup)
     tup_face = []
-
+    
     for i in range(len(tup)):
         tup_name[i][0] = list(tup.keys())[i]
+        print(tup_name[i])        
         tup_face.append(tup.get(tup_name[i][0]))
-        tup_name[i].append(tup_face)
-    #print(tup_name[0])
+        tup_name.append(tup_face[i])
+    #print('ccc',(tup_name))
+    print(tup_name)
 
     if count_user_picture[0] == 0:
         return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup=tup_name)    
     else:
         percent = (count_user_picture[0] / count_all_picture[0])*100
         percent = '%0.1f' % percent
-        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = percent, tup=tup)
+        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = percent, tup=tup_name)
 
 @app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
 def datecal():
