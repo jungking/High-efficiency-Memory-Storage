@@ -12,11 +12,11 @@
         <br/><h2>{{session['userid']}}님은 {{count_user_picture}}장 올리셨군요!</h2>
         <br/><h2>{{percent}} %에 해당하네요!</h2>
 
-        {{tup.keys()}}
         {{tup.values()}}
-        {% for key in tup.keys() %}
-          <a href = "#">{{tup[key]}}</a>
-          <a href = "#">{{tup[value]}}</a>
+
+
+        {% for i in range((tup|length)) %}
+          <a href = "#">{{tup[key]}}</a>          
         {% endfor %}
 
         <img src="data:image/jpeg;charset=utf-8;base64,{{tup.values()}}">

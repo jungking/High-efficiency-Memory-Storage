@@ -170,9 +170,18 @@ def profile():
         cont.append(data[i][1])
         face[i] = face[i].decode('UTF=8")')   
         tup.setdefault(cont[i],face[i])
+        
+    tup_name = [[0]*1]*len(tup)
+    tup_face = []
+
+    for i in range(len(tup)):
+        tup_name[i][0] = list(tup.keys())[i]
+        tup_face.append(tup.get(tup_name[i][0]))
+        tup_name[i].append(tup_face)
+    #print(tup_name[0])
 
     if count_user_picture[0] == 0:
-        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup=tup)    
+        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup=tup_name)    
     else:
         percent = (count_user_picture[0] / count_all_picture[0])*100
         percent = '%0.1f' % percent
