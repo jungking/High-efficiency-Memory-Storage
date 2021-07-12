@@ -8,15 +8,17 @@
        <form method="GET,POST" action = "upload/face" style="text-align:center;">
           <img src = "data:image/jpeg;charset=utf-8;base64,{{img}}" usemap = "#face">
           <map name="face" id="face">
+            <br/>
             {% for i in range(face_detect) %}
             <br/>
               <area shape="rect" coords="{{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}" alt = "face{{i}}" href = "./a"/>
               {{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}
               <img src = "data:image/jpeg;charset=utf-8;base64,{{face_rec[i]}}">
               <input type = "text" name = "face{{i}}">
+              <br/>
             {% endfor %}
           </map>
-          <br/>
+          <br/><br/>
           <!-- <textarea type="text" name='num_id' value="{{i}}" class="input-text"></textarea> -->
           <button type="submit", onclick = "location.href = '/'" >사진 업로드</button>
 

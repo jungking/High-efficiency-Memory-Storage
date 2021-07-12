@@ -24,7 +24,7 @@ def show_image(image):
     print ("Found {0} faces!".format(len(faces)))
 
     for (x, y, w, h) in faces:
-        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 1)
        
     if len(cv2.split(image))<=3:
         b, g, r = cv2.split(image)

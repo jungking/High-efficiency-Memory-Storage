@@ -157,16 +157,26 @@ def profile():
     cursor.execute(sql,(userid))
     count_user_picture = cursor.fetchone()
 
+    sql = "SELECT face,content FROM face_set WHERE userid = %s"
+    cursor.execute(sql,(userid))
+    data = cursor.fetchall()   
+    face = []
+    cont = []
+    tup = {}
+    # 사진, 임현준,  사진, 이예원
 
+    for i in range(len(data)):
+        face.append(data[i][0])
+        cont.append(data[i][1])
+        face[i] = face[i].decode('UTF=8")')   
+        tup.setdefault(cont[i],face[i])
 
-
-    
     if count_user_picture[0] == 0:
-        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0)    
+        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup=tup)    
     else:
         percent = (count_user_picture[0] / count_all_picture[0])*100
         percent = '%0.1f' % percent
-        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = percent)
+        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = percent, tup=tup)
 
 @app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
 def datecal():
