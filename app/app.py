@@ -174,18 +174,16 @@ def datecal():
         user_id = session['userid']
         content = request.form['content']
 
+        conn = mysql.connect()
+        cursor = conn.cursor()
+
         file = file.read()
         face_list=[]
-        global face_detect
+        global face_detect, face_rec
         image, face_detect, face_list, face_rec= show_image(file)
         image = image.decode("UTF=8")   # image
         
-        for i in range(face_detect):
-            face_rec[i] = face_rec[i].decode("UTF=8")   # image
-
         img_str = image
-        conn = mysql.connect()
-        cursor = conn.cursor()
 
         sql = "SELECT MAX(sub_id) FROM picture_table WHERE userid = %s"
         cursor.execute(sql,(user_id))
@@ -214,23 +212,44 @@ def datecal():
 
 @app.route('/upload/face', methods = ['GET','POST']) #업로드 창 들어가기
 def face():
-    #face0 = request.args.get("face0")
-    #face1 = request.args.get("face1")
-    #print(face0)
-    #print(face1)
+    user_id = session['userid']
+    conn = mysql.connect()
+    cursor = conn.cursor()
+
     face_rect = []
     for i in range(face_detect):
         req = request.args.get('face'+ str(i))
-        print(req)
         face_rect.append(req)
-    print('face????????',face_rect)
-    return redirect('./check')
 
-@app.route('/upload/check', methods = ['GET','POST'])
-def check():
-    flash("업로드 성공")
-    print("업로드 성공")
-    return render_template('/upload.html')
+    for i in range(face_detect):
+        face_rec[i] = face_rec[i].decode("UTF=8")   # image
+
+        sql = "SELECT MAX(sub_id) FROM face_set WHERE userid = %s"
+        cursor.execute(sql,(user_id))
+        sub_id = cursor.fetchone()
+
+        if None in sub_id :
+            sub_id = 1
+        else:
+            sub_id = sub_id[0] + 1
+
+        sql = "INSERT INTO face_set(sub_id,face,content,userid) VALUES (%s,%s,%s,%s)"        
+        cursor.execute(sql,(sub_id,face_rec[i],face_rect[i],user_id))
+        data = cursor.fetchall()
+
+        if not data:
+            conn.commit()
+            msg = "업로드 성공"
+            flash("업로드 성공")
+            return redirect('/upload')
+
+        else:
+            conn.rollback()
+            flash("업로드 실패")
+            error = "업로드 실패"
+            return render_template('/upload.html',error = error)    
+
+    return redirect('/upload')
 
 @app.route('/picture', methods = ['GET','POST']) #사진 창 들어가기
 def picture():
