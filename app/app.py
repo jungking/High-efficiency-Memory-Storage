@@ -249,7 +249,6 @@ def face():
         face_rect.append(req)
 
     for i in range(face_detect):
-
         sql = "SELECT MAX(sub_id) FROM face_set WHERE userid = %s"
         cursor.execute(sql,(user_id))
         sub_id = cursor.fetchone()
