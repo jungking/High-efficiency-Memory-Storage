@@ -16,9 +16,9 @@
           {{tup_name[i]}}<br/>
           {% for j in range(tup_face[i]|length) %}
             {% if (tup_face[i]|length) > 1 %}
-                <img src="data:image/jpeg;charset=utf-8;base64,{{tup_face[i]}}"/>
+                <!-- {{tup_face[i]}} -->
             {% else %}
-              {{tup_face[i]}}
+              
             {% endif %} 
           {% endfor %}
         {% endfor %}  
