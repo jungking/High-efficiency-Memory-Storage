@@ -164,30 +164,26 @@ def profile():
     cont = []
     tup = {}
     # 사진, 임현준,  사진, 이예원
-
+    
     for i in range(len(data)):
         face.append(data[i][0])
         cont.append(data[i][1])
         face[i] = face[i].decode('UTF=8")')   
         tup.setdefault(cont[i],face[i])
-        
+
     tup_name = [[0]*1]*len(tup)
     tup_face = []
     
     for i in range(len(tup)):
-        tup_name[i][0] = list(tup.keys())[i]
-        print(tup_name[i])        
-        tup_face.append(tup.get(tup_name[i][0]))
-        tup_name.append(tup_face[i])
-    #print('ccc',(tup_name))
-    print(tup_name)
+        tup_name[i] = list(tup.keys())[i]
+        tup_face.append(tup.get(tup_name[i]))
 
     if count_user_picture[0] == 0:
-        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup=tup_name)    
+        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup_face=tup_face, tup_name = tup_name)    
     else:
         percent = (count_user_picture[0] / count_all_picture[0])*100
         percent = '%0.1f' % percent
-        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = percent, tup=tup_name)
+        return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = percent, tup_name=tup_name, tup_face = tup_face)
 
 @app.route('/upload', methods = ['GET', 'POST']) #업로드 창 들어가기
 def datecal():
@@ -210,6 +206,7 @@ def datecal():
         image = image.decode("UTF=8")   # image
         for i in range(face_detect):
             face_rec[i] = face_rec[i].decode("UTF=8")   # image
+        print(face_rec)
         img_str = image
 
         sql = "SELECT MAX(sub_id) FROM picture_table WHERE userid = %s"
@@ -246,8 +243,9 @@ def face():
     face_rect = []
     for i in range(face_detect):
         req = request.args.get('face'+ str(i))
+        print(req)
         face_rect.append(req)
-
+    print(face_rect)
     for i in range(face_detect):
         sql = "SELECT MAX(sub_id) FROM face_set WHERE userid = %s"
         cursor.execute(sql,(user_id))

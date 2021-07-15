@@ -5,14 +5,17 @@
   </head>
   <body>
    {% include 'main/nav.html'%}
-       <form method="GET,POST" action = "upload/face" style="text-align:center;">
+       <form method="GET,POST" action = "http://127.0.0.1:5000/upload/face" style="text-align:center;">
           <img src = "data:image/jpeg;charset=utf-8;base64,{{img}}">
           {% for i in range(face_detect) %}
             <area shape="rect" coords="{{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}" alt = "face{{i}}" href = "#">
-            <input type = text>
+            <br/><br/>
+            <img src = "data:image/jpeg;charset=utf-8;base64,{{face_rec[i]}}"/>
+            &nbsp; 
+            <input type = text, name = "face{{i}}">
           {% endfor %}
-          
-          <button type="button", onclick = "location.href = './upload'" >사진 업로드</button>
+          <br/><br/>
+          <button type="submit", onclick = "location.href = './upload/face'" >사진 업로드</button>
 
      </form>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -12,19 +12,18 @@
         <br/><h2>{{session['userid']}}님은 {{count_user_picture}}장 올리셨군요!</h2>
         <br/><h2>{{percent}} %에 해당하네요!</h2>
           
-        {% for i in range(tup|length) %}
-          tup
-        
-        <!-- {{tup[i][0]}} -->
-          
-          <!-- {% for j in range((tup[i]|length)-1) %}
-          
-          <img src="data:image/jpeg;charset=utf-8;base64,{{tup[i][j+1]}}">
+       {% for i in range(tup_name|length) %}
+          {{tup_name[i]}}<br/>
+          {% for j in range(tup_face[i]|length) %}
+            {% if (tup_face[i]|length) > 1 %}
+                <img src="data:image/jpeg;charset=utf-8;base64,{{tup_face[i]}}"/>
+            {% else %}
+              {{tup_face[i]}}
+            {% endif %} 
           {% endfor %}
- -->        {% endfor %}
+        {% endfor %}  
 
-        {{tup[0][0]}}
-        {{tup[0][1]}}
+        
         
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
