@@ -168,19 +168,21 @@ def profile():
     for i in range(len(data)):
         face.append(data[i][0])
         cont.append(data[i][1])
-        face[i] = face[i].decode('UTF=8")')   
-        tup.setdefault(cont[i],face[i])
+        face[i] = face[i].decode('UTF=8")')   # 얼굴 utf 총 모음  cont와 비례
+    
+    tup_name = []
+ 
+    for i in range(len(cont)):  
+        if cont[i] not in tup_name:
+            tup_name.append(cont[i])
 
-    tup_name = [[0]*1]*len(tup)
-    tup_face = []
-    
-    for i in range(len(tup)):
-        tup_name[i] = list(tup.keys())[i]
-        tup_face.append(tup.get(tup_name[i]))
-    
-    print(tup_name)
-    print(tup_face)
-    
+    tup_face = [[] for i in range(len(tup_name))]
+
+    for i in range(len(cont)):
+        for j in range(len(tup_face)):
+            if cont[i] == tup_name[j]:
+                tup_face[j].append(face[i])
+    print(tup_face[0])
     if count_user_picture[0] == 0:
         return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup_face=tup_face, tup_name = tup_name)    
     else:

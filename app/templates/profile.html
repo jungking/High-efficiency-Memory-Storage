@@ -11,20 +11,13 @@
         <br/><br/><br/><h2>전체 이용자가 올린 사진 {{count_all_picture}}장</h2>
         <br/><h2>{{session['userid']}}님은 {{count_user_picture}}장 올리셨군요!</h2>
         <br/><h2>{{percent}} %에 해당하네요!</h2>
-          
-       {% for i in range(tup_name|length) %}
-          {{tup_name[i]}}<br/>
-          {% for j in range(tup_face[i]|length) %}
-            {% if (tup_face[i]|length) > 1 %}
-                <!-- {{tup_face[i]}} -->
-            {% else %}
-              
-            {% endif %} 
-          {% endfor %}
-        {% endfor %}  
+        {% for i in range(tup_name|length) %}
+          <br/>{{tup_name[i]}}<br/><br/>
+            {% for j in range(tup_face[i]|length) %}
+              <img src="data:image/jpeg;charset=utf-8;base64,{{tup_face[i][j]}}">
+            {% endfor %}
+        {% endfor %}
 
-        
-        
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../../static/js/bootstrap.bundle.min.js"></script>
