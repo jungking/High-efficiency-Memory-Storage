@@ -162,8 +162,6 @@ def profile():
     data = cursor.fetchall()   
     face = []
     cont = []
-    tup = {}
-    # 사진, 임현준,  사진, 이예원
     
     for i in range(len(data)):
         face.append(data[i][0])
@@ -182,7 +180,7 @@ def profile():
         for j in range(len(tup_face)):
             if cont[i] == tup_name[j]:
                 tup_face[j].append(face[i])
-    print(tup_face[0])
+
     if count_user_picture[0] == 0:
         return render_template('/profile.html',timedata = timedata[0], count_all_picture = count_all_picture[0], count_user_picture = count_user_picture[0], percent = 0, tup_face=tup_face, tup_name = tup_name)    
     else:
@@ -211,7 +209,6 @@ def datecal():
         image = image.decode("UTF=8")   # image
         for i in range(face_detect):
             face_rec[i] = face_rec[i].decode("UTF=8")   # image
-        print(face_rec)
         img_str = image
 
         sql = "SELECT MAX(sub_id) FROM picture_table WHERE userid = %s"
@@ -248,9 +245,8 @@ def face():
     face_rect = []
     for i in range(face_detect):
         req = request.args.get('face'+ str(i))
-        print(req)
         face_rect.append(req)
-    print(face_rect)
+
     for i in range(face_detect):
         sql = "SELECT MAX(sub_id) FROM face_set WHERE userid = %s"
         cursor.execute(sql,(user_id))
