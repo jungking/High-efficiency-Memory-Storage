@@ -195,7 +195,6 @@ def datecal():
     else:
         date = request.form['date']
         file = request.files['file']
-        #img = Image.open(file)
         user_id = session['userid']
         content = request.form['content']
 
@@ -224,11 +223,18 @@ def datecal():
         cursor.execute(sql,(sub_id,date,img_str,user_id,content))
         data = cursor.fetchall()
 
+        sql = "SELECT content FROM face_set WHERE userid = %s GROUP BY content"
+        cursor.execute(sql,(user_id))
+        face_data = cursor.fetchall()
+        face_content = []
+        for i in range(len(face_data)):
+            face_content.append(face_data[i][0])
+
         if not data:
             conn.commit()
             msg = "업로드 성공"
             flash("업로드 성공")
-            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list, face_rec = face_rec)
+            return render_template('/face.html', img = image ,msg = msg, face_detect = face_detect, face_list = face_list, face_rec = face_rec, face_content = face_content)
 
         else:
             conn.rollback()
@@ -246,6 +252,9 @@ def face():
     for i in range(face_detect):
         req = request.args.get('face'+ str(i))
         face_rect.append(req)
+
+
+
 
     for i in range(face_detect):
         sql = "SELECT MAX(sub_id) FROM face_set WHERE userid = %s"

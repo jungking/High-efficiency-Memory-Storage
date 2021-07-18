@@ -7,6 +7,12 @@
    {% include 'main/nav.html'%}
        <form method="GET,POST" action = "http://127.0.0.1:5000/upload/face" style="text-align:center;">
           <img src = "data:image/jpeg;charset=utf-8;base64,{{img}}">
+
+          <h1> 이미 등록된 얼굴 이미지 </h1>
+          {% for i in range(face_content|length) %}
+            {{face_content[i]}}<br/>
+          {% endfor %}
+
           {% for i in range(face_detect) %}
             <area shape="rect" coords="{{face_list[i][0]}},{{face_list[i][1]}},{{face_list[i][2]}},{{face_list[i][3]}}" alt = "face{{i}}" href = "#">
             <br/><br/>
