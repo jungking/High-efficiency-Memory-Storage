@@ -88,6 +88,7 @@ def signin():
             session['userid'] = userid
             print(session['userid'],"으로 로그인 성공")
             return redirect('/')
+            
         else:
             error = '아이디나 패스워드가 틀립니다.'
             return render_template('sign/signin.html',error=error)
