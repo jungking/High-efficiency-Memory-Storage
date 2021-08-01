@@ -29,11 +29,7 @@ def show_image(image):
     if len(cv2.split(image))<=3:
         b, g, r = cv2.split(image)
         image = cv2.merge([r,g,b]) 
-    #image = cv2.resize(image, dsize=(0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
-    #image = cv2.resize(image, dsize=(400, 400), interpolation=cv2.INTER_LINEAR)
-    #cv2.imshow("Faces found", image)
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
+
     face_list = faces.tolist()
     for i in range(len(faces)):
         face_list[i][2] = face_list[i][0] + face_list[i][2]
@@ -63,7 +59,6 @@ def show_image(image):
         img_buffer.save(rawBytes[i], 'PNG')
         rawBytes[i].seek(0)
         img_crop.append(base64.b64encode(rawBytes[i].read()))
-        #img_crop.append(img_buffer.tobytes())
 
     return base64_img,facelen,face_list, img_crop
 
