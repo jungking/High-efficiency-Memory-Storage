@@ -18,5 +18,9 @@ MYSQL DB와 Python Flask를 기반으로 한 웹사이트
 + os : window 10
 + chrome 환경 추천
 
+## update
 
+추후 추가할 내용
+
++ 등록된 얼굴사진으로 본인 체크 시, 로그인 시 얼굴인식으로 로그인?
 
