@@ -4,3 +4,7 @@ config.py
 __pycache__
 
 app/__pycache__/app.cpython-38.pyc
+
+.idea
+misc.xml
+vcs.xml
