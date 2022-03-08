@@ -15,7 +15,7 @@ MYSQL DB와 Python Flask를 기반으로 한 웹사이트
      python run.py
      
 개발 환경
-+ os : window 10
++ os : window 10.  (2022-03-07 mac os 확인 중...)
 + chrome 환경 추천
 
 ## update
